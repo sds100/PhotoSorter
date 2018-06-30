@@ -13,11 +13,11 @@ namespace PhotoSorter.MainForm
             Form = form;
         }
 
-        public void SortAsync()
+        public async void SortAsync()
         {
             var groupTypes = new GroupType[] { GroupType.YEAR, GroupType.MONTH, GroupType.DAY };
 
-            Sorter.SortAsync(DEBUG_PATH, Form.OutputDirectory, groupTypes);
+            await Sorter.SortPreviewAsync(DEBUG_SOURCE, groupTypes);
         }
     }
 }

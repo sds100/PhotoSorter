@@ -1,4 +1,5 @@
 ﻿using Microsoft.WindowsAPICodePack.Shell;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,18 +25,40 @@ namespace PhotoSorter
             "December"
         };
 
-        public static async void SortAsync(string sourceDirectory, string outputDirectory, GroupType[] groupTypes)
+        /// <summary>
+        /// Sort files into groups but don't write the changes to the disk.
+        /// </summary>
+        /// <param name="sourceDirectory">Directory where the photos to sort are located</param>
+        /// <param name="groupTypes"></param>
+        public static async Task<SortResult> SortPreviewAsync(
+            string sourceDirectory,
+            GroupType[] groupTypes)
         {
+            var sortResult = new SortResult();
+
             await Task.Run(() =>
             {
-                var fileInfoList = CreateFileInfoList(sourceDirectory).ToList();
-                
-                var groups = CreateGroups(fileInfoList, GroupType.YEAR, groupTypes.ToList());
+
+                var fileInfoListResult = CreateFileInfoList(sourceDirectory);
+                sortResult.UnknownFiles = fileInfoListResult.UnknownFiles;
+
+                var groups = CreateGroups(
+                    fileInfoListResult.FileInfoList,
+                    GroupType.YEAR,
+                    groupTypes.ToList());
+
+                OutputJsonToFile(groups);
             });
+
+            return sortResult;
         }
 
-        private static IEnumerable<FileInfo> CreateFileInfoList(string sourceDirectory)
+        private static FileInfoListResult CreateFileInfoList(string sourceDirectory)
         {
+            var fileInfoList = new List<FileInfo>();
+            bool unknownFiles = false;
+
+            //loop through the file names of every file in the source directory
             foreach (string fileName in Directory.GetFiles(sourceDirectory))
             {
                 using (var file = ShellFile.FromFilePath(fileName))
@@ -44,13 +67,18 @@ namespace PhotoSorter
 
                     if (itemDate.HasValue)
                     {
-                        yield return new FileInfo(fileName, itemDate.GetValueOrDefault());
+                        fileInfoList.Add(new FileInfo(fileName, itemDate.GetValueOrDefault()));
                     }
                 }
             }
+
+            return new FileInfoListResult(fileInfoList, unknownFiles);
         }
 
-        private static List<Group> CreateGroups(List<FileInfo> fileInfoList, GroupType groupType, List<GroupType> childGroupTypes)
+        private static List<Group> CreateGroups(
+            List<FileInfo> fileInfoList,
+            GroupType groupType,
+            List<GroupType> childGroupTypes)
         {
             var groupList = new List<Group>();
 
@@ -58,24 +86,27 @@ namespace PhotoSorter
             {
                 string datePart = GetDatePartByGroupType(fileInfo, groupType);
 
-                if (datePart != null)
+                //If no suitable group for the item already exists
+                if (!groupList.Any(item => item.Name == datePart && item.Type == groupType))
                 {
-                    var groupsWithType = groupList.Where(item => item.Type == groupType);
+                    var group = new Group(datePart, groupType);
 
-                    if (!groupsWithType.Any(item => item.Name == datePart))
+                    //If not at the lowest level of the group tree, create child groups
+                    if (childGroupTypes.Count > 1)
                     {
-                        var group = new Group(datePart, groupType);
+                        // remove the current group from the child groups
+                        childGroupTypes.RemoveAt(0);
 
-                        if (childGroupTypes.Count > 1)
-                        {
-                            var childFileInfoList = fileInfoList.Where(item => GetDatePartByGroupType(item, groupType) == datePart).ToList();
-                            childGroupTypes.RemoveAt(0);
-
-                            group.ChildGroups = CreateGroups(childFileInfoList, childGroupTypes[0], childGroupTypes);
-                        }
-
-                        groupList.Add(group);
+                        //only select files for the child group which can go in that group
+                        var childFileInfoList =
+                            fileInfoList.Where(item =>
+                            GetDatePartByGroupType(item, groupType) == datePart).ToList();
+                       
+                        group.ChildGroups =
+                            CreateGroups(childFileInfoList, childGroupTypes[0], childGroupTypes);
                     }
+
+                    groupList.Add(group);
                 }
             }
 
@@ -97,6 +128,14 @@ namespace PhotoSorter
 
                 default:
                     return null;
+            }
+        }
+
+        private static void OutputJsonToFile(object value)
+        {
+            using (var streamWriter = new StreamWriter("A:\\debug.json"))
+            {
+                streamWriter.Write(JsonConvert.SerializeObject(value));
             }
         }
     }
