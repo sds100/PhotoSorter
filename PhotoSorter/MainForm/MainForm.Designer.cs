@@ -1,4 +1,4 @@
-﻿namespace PhotoSorter
+﻿namespace PhotoSorter.MainForm
 {
     partial class MainForm
     {
