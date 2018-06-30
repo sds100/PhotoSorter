@@ -57,8 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileInfo.cs" />
-    <Compile Include="FileInfoListResult.cs" />
+    <Compile Include="PhotoInfo.cs" />
+    <Compile Include="PhotoInfoListResult.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="IProgressBar.cs" />
     <Compile Include="MainForm\IForm.cs" />

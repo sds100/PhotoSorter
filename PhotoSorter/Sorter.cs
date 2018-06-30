@@ -10,12 +10,12 @@ namespace PhotoSorter
 {
     public static class Sorter
     {
-
         /// <summary>
-        /// Sort files into groups but don't write the changes to the disk.
+        /// Sort photos into groups but don't write the changes to the disk.
         /// </summary>
         /// <param name="sourceDirectory">Directory where the photos to sort are located</param>
-        /// <param name="groupTypes"></param>
+        /// <param name="groupTypes">The types of groups to sort the photos into.
+        /// E.g year, month, day</param>
         public static async Task<SortResult> SortPreviewAsync(
             string sourceDirectory,
             GroupType[] groupTypes)
@@ -25,11 +25,11 @@ namespace PhotoSorter
             await Task.Run(() =>
             {
 
-                var fileInfoListResult = CreateFileInfoList(sourceDirectory);
+                var fileInfoListResult = CreatePhotoInfoList(sourceDirectory);
                 sortResult.UnknownFiles = fileInfoListResult.UnknownFiles;
 
                 var groups = CreateGroups(
-                    fileInfoListResult.FileInfoList,
+                    fileInfoListResult.PhotoInfoList,
                     GroupType.YEAR,
                     groupTypes.ToList());
 
@@ -39,9 +39,14 @@ namespace PhotoSorter
             return sortResult;
         }
 
-        private static FileInfoListResult CreateFileInfoList(string sourceDirectory)
+        /// <summary>
+        /// Get the name and date taken for all the media files in a directory.
+        /// </summary>
+        /// <param name="sourceDirectory"></param>
+        /// <returns></returns>
+        private static PhotoInfoListResult CreatePhotoInfoList(string sourceDirectory)
         {
-            var fileInfoList = new List<FileInfo>();
+            var photoInfoList = new List<PhotoInfo>();
             bool unknownFiles = false;
 
             //loop through the file names of every file in the source directory
@@ -49,28 +54,29 @@ namespace PhotoSorter
             {
                 using (var file = ShellFile.FromFilePath(fileName))
                 {
+                    ///
                     var itemDate = file.Properties.System.ItemDate.Value;
 
                     if (itemDate.HasValue)
                     {
-                        fileInfoList.Add(new FileInfo(fileName, itemDate.GetValueOrDefault()));
+                        photoInfoList.Add(new PhotoInfo(fileName, itemDate.GetValueOrDefault()));
                     }
                 }
             }
 
-            return new FileInfoListResult(fileInfoList, unknownFiles);
+            return new PhotoInfoListResult(photoInfoList, unknownFiles);
         }
 
         private static List<Group> CreateGroups(
-            List<FileInfo> fileInfoList,
+            List<PhotoInfo> photoInfoList,
             GroupType groupType,
             List<GroupType> childGroupTypes)
         {
             var groupList = new List<Group>();
 
-            foreach (var fileInfo in fileInfoList)
+            foreach (var photoInfo in photoInfoList)
             {
-                string datePart = GetDatePartByGroupType(fileInfo, groupType);
+                string datePart = GetDatePartByGroupType(photoInfo, groupType);
 
                 //If no suitable group for the item already exists
                 if (!groupList.Any(item => item.Name == datePart && item.Type == groupType))
@@ -85,7 +91,7 @@ namespace PhotoSorter
 
                         //only select files for the child group which can go in that group
                         var childFileInfoList =
-                            fileInfoList.Where(item =>
+                            photoInfoList.Where(item =>
                             GetDatePartByGroupType(item, groupType) == datePart).ToList();
 
                         group.ChildGroups =
@@ -99,9 +105,9 @@ namespace PhotoSorter
             return groupList;
         }
 
-        private static string GetDatePartByGroupType(FileInfo fileInfo, GroupType groupType)
+        private static string GetDatePartByGroupType(PhotoInfo photoInfo, GroupType groupType)
         {
-            var dateTime = fileInfo.ItemDate;
+            var dateTime = photoInfo.DateTaken;
             switch (groupType)
             {
                 case GroupType.YEAR:
