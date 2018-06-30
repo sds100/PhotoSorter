@@ -1,4 +1,6 @@
-﻿namespace PhotoSorter.MainForm
+﻿using static PhotoSorter.Group;
+
+namespace PhotoSorter.MainForm
 {
     class Presenter : IPresenter
     {
@@ -13,7 +15,9 @@
 
         public void SortAsync()
         {
-            Sorter.SortAsync(DEBUG_PATH, null, null);
+            var groupTypes = new GroupType[] { GroupType.YEAR, GroupType.MONTH, GroupType.DAY };
+
+            Sorter.SortAsync(DEBUG_PATH, Form.OutputDirectory, groupTypes);
         }
     }
 }
