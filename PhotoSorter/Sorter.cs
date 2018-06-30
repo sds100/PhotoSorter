@@ -28,22 +28,26 @@ namespace PhotoSorter
         {
             await Task.Run(() =>
             {
-                var fileInfoList = new List<FileInfo>();
-
-                foreach (string fileName in Directory.GetFiles(sourceDirectory))
-                {
-                    using (var file = ShellFile.FromFilePath(fileName))
-                    {
-                        var itemDate = file.Properties.System.ItemDate.Value;
-
-                        if (itemDate.HasValue)
-                        {
-                            fileInfoList.Add(new FileInfo(fileName, itemDate.GetValueOrDefault()));
-                        }
-                    }
-                }
+                var fileInfoList = CreateFileInfoList(sourceDirectory).ToList();
+                
                 var groups = CreateGroups(fileInfoList, GroupType.YEAR, groupTypes.ToList());
             });
+        }
+
+        private static IEnumerable<FileInfo> CreateFileInfoList(string sourceDirectory)
+        {
+            foreach (string fileName in Directory.GetFiles(sourceDirectory))
+            {
+                using (var file = ShellFile.FromFilePath(fileName))
+                {
+                    var itemDate = file.Properties.System.ItemDate.Value;
+
+                    if (itemDate.HasValue)
+                    {
+                        yield return new FileInfo(fileName, itemDate.GetValueOrDefault());
+                    }
+                }
+            }
         }
 
         private static List<Group> CreateGroups(List<FileInfo> fileInfoList, GroupType groupType, List<GroupType> childGroupTypes)
