@@ -4,7 +4,7 @@ namespace PhotoSorter.MainForm
 {
     class Presenter : IPresenter
     {
-        private const string DEBUG_PATH = "A:\\SORT-PHOTOS-TEMP";
+        private const string DEBUG_SOURCE = "A:\\SORT-PHOTOS-TEMP";
 
         private readonly IForm Form;
 
