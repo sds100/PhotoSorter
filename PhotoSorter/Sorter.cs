@@ -10,20 +10,6 @@ namespace PhotoSorter
 {
     public static class Sorter
     {
-        private static readonly string[] MONTHS = new string[] {
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December"
-        };
 
         /// <summary>
         /// Sort files into groups but don't write the changes to the disk.
@@ -101,7 +87,7 @@ namespace PhotoSorter
                         var childFileInfoList =
                             fileInfoList.Where(item =>
                             GetDatePartByGroupType(item, groupType) == datePart).ToList();
-                       
+
                         group.ChildGroups =
                             CreateGroups(childFileInfoList, childGroupTypes[0], childGroupTypes);
                     }
@@ -115,16 +101,17 @@ namespace PhotoSorter
 
         private static string GetDatePartByGroupType(FileInfo fileInfo, GroupType groupType)
         {
+            var dateTime = fileInfo.ItemDate;
             switch (groupType)
             {
                 case GroupType.YEAR:
-                    return fileInfo.ItemDate.Year.ToString();
+                    return dateTime.Year.ToString();
 
                 case GroupType.MONTH:
-                    return MONTHS[fileInfo.ItemDate.Month - 1];
+                    return dateTime.ToString("MMMM");
 
                 case GroupType.DAY:
-                    return fileInfo.ItemDate.Day.ToString();
+                    return dateTime.Day.ToString();
 
                 default:
                     return null;
