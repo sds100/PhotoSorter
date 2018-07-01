@@ -19,11 +19,5 @@ namespace PhotoSorter
             ChildGroups = new List<Group>();
             Files = new List<PhotoInfo>();
         }
-
-        public enum GroupType
-        {
-            YEAR, MONTH, DAY         
-            // Hour, minute???
-        }
     }
 }

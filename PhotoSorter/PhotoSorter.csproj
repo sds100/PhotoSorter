@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GroupType.cs" />
     <Compile Include="PhotoInfo.cs" />
     <Compile Include="PhotoInfoListResult.cs" />
     <Compile Include="Group.cs" />
