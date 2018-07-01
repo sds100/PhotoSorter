@@ -35,6 +35,7 @@
             this.buttonOutputDirectory = new System.Windows.Forms.Button();
             this.buttonSort = new System.Windows.Forms.Button();
             this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.labelVersion = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelSourceDirectory
@@ -94,18 +95,28 @@
             this.buttonSort.UseVisualStyleBackColor = true;
             this.buttonSort.Click += new System.EventHandler(this.ButtonSort_Click);
             // 
-            // progressBar1
+            // progressBar
             // 
             this.progressBar.Location = new System.Drawing.Point(210, 300);
-            this.progressBar.Name = "progressBar1";
+            this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(466, 23);
             this.progressBar.TabIndex = 7;
+            // 
+            // labelVersion
+            // 
+            this.labelVersion.AutoSize = true;
+            this.labelVersion.Location = new System.Drawing.Point(13, 425);
+            this.labelVersion.Name = "labelVersion";
+            this.labelVersion.Size = new System.Drawing.Size(45, 13);
+            this.labelVersion.TabIndex = 8;
+            this.labelVersion.Text = "Version:";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.labelVersion);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.buttonSort);
             this.Controls.Add(this.buttonOutputDirectory);
@@ -115,6 +126,7 @@
             this.Controls.Add(this.labelSourceDirectory);
             this.Name = "MainForm";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -129,6 +141,7 @@
         private System.Windows.Forms.Button buttonOutputDirectory;
         private System.Windows.Forms.Button buttonSort;
         private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.Label labelVersion;
     }
 }
 

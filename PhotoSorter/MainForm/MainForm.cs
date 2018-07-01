@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PhotoSorter.Properties;
+using System;
 using System.Windows.Forms;
 
 namespace PhotoSorter.MainForm
@@ -25,6 +26,11 @@ namespace PhotoSorter.MainForm
         {
             InitializeComponent();
             Presenter = new Presenter(this);
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            labelVersion.Text = $"Version: {Resources.Version}";
         }
 
         private void ButtonSourceDirectory_Click(object sender, EventArgs e)
