@@ -1,5 +1,6 @@
 ﻿using PhotoSorter.Properties;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace PhotoSorter.MainForm
@@ -78,6 +79,12 @@ namespace PhotoSorter.MainForm
             {
                 progressBar.Value = 0;
             }));
+        }
+
+        public void ShowErrorMessage(string message)
+        {
+            labelStatus.Text = message;
+            labelStatus.ForeColor = Color.Red;
         }
     }
 }
