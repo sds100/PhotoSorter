@@ -2,6 +2,9 @@
 
 namespace PhotoSorter
 {
+    /// <summary>
+    /// Represents a folder in the sort tree. E.g /2017 or /2017/March
+    /// </summary>
     public struct Group
     {
         public string Name { get; }

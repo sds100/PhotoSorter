@@ -74,7 +74,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sorter.cs" />
-    <Compile Include="SortResult.cs" />
+    <Compile Include="SortPreviewResult.cs" />
     <EmbeddedResource Include="MainForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
