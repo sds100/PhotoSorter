@@ -37,7 +37,7 @@
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.labelVersion = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.labelProgress = new System.Windows.Forms.Label();
+            this.labelStatus = new System.Windows.Forms.Label();
             this.labelMessage = new System.Windows.Forms.Label();
             this.listBoxGroups = new System.Windows.Forms.CheckedListBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -137,16 +137,16 @@
             this.label2.TabIndex = 9;
             this.label2.Text = "Where should the files be sorted to?";
             // 
-            // labelProgress
+            // labelStatus
             // 
-            this.labelProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelProgress.AutoSize = true;
-            this.labelProgress.Location = new System.Drawing.Point(16, 417);
-            this.labelProgress.Name = "labelProgress";
-            this.labelProgress.Size = new System.Drawing.Size(49, 13);
-            this.labelProgress.TabIndex = 10;
-            this.labelProgress.Text = "Sorting...";
+            this.labelStatus.AutoSize = true;
+            this.labelStatus.Location = new System.Drawing.Point(16, 417);
+            this.labelStatus.Name = "labelStatus";
+            this.labelStatus.Size = new System.Drawing.Size(37, 13);
+            this.labelStatus.TabIndex = 10;
+            this.labelStatus.Text = "Status";
             // 
             // labelMessage
             // 
@@ -186,7 +186,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.listBoxGroups);
             this.Controls.Add(this.labelMessage);
-            this.Controls.Add(this.labelProgress);
+            this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelVersion);
             this.Controls.Add(this.progressBar);
@@ -217,7 +217,7 @@
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Label labelVersion;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label labelProgress;
+        private System.Windows.Forms.Label labelStatus;
         private System.Windows.Forms.Label labelMessage;
         private System.Windows.Forms.CheckedListBox listBoxGroups;
         private System.Windows.Forms.Label label3;
