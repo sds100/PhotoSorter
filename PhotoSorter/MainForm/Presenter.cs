@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using static PhotoSorter.Group;
 
 namespace PhotoSorter.MainForm
 {
@@ -15,16 +14,19 @@ namespace PhotoSorter.MainForm
 
         public async void SortPreviewAsync(bool inDebugMode)
         {
-            var groupTypes = new List<GroupType>();
-
-            groupTypes.AddRange(
-                new GroupType[] { GroupType.YEAR, GroupType.MONTH, GroupType.DAY });
+            var groupTypes = Form.SelectedGroupTypes;
 
             if (inDebugMode)
             {
-                string sourceDirectory = Form.SourceDirectory;
+                groupTypes = new List<GroupType>()
+                {
+                    GroupType.YEAR,
+                    GroupType.MONTH,
+                    GroupType.DAY,
+                    GroupType.HOUR
+                };
 
-                sourceDirectory = MainForm.DEBUG_SOURCE;
+                string sourceDirectory = MainForm.DEBUG_SOURCE;
 
                 await Sorter.SortPreviewAsync(sourceDirectory, groupTypes);
 
@@ -51,6 +53,11 @@ namespace PhotoSorter.MainForm
                 || !Directory.Exists(Form.OutputDirectory))
             {
                 Form.ShowErrorMessage("Must choose a valid output directory");
+                return false;
+            }
+            else if (Form.SelectedGroupTypes.Count == 0)
+            {
+                Form.ShowErrorMessage("Must choose at least one group");
                 return false;
             }
 

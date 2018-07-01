@@ -101,7 +101,7 @@
             // buttonSort
             // 
             this.buttonSort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSort.Location = new System.Drawing.Point(497, 458);
+            this.buttonSort.Location = new System.Drawing.Point(497, 383);
             this.buttonSort.Name = "buttonSort";
             this.buttonSort.Size = new System.Drawing.Size(75, 23);
             this.buttonSort.TabIndex = 5;
@@ -113,7 +113,7 @@
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(16, 436);
+            this.progressBar.Location = new System.Drawing.Point(16, 361);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(556, 16);
             this.progressBar.TabIndex = 7;
@@ -122,7 +122,7 @@
             // 
             this.labelVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.labelVersion.AutoSize = true;
-            this.labelVersion.Location = new System.Drawing.Point(13, 463);
+            this.labelVersion.Location = new System.Drawing.Point(13, 388);
             this.labelVersion.Name = "labelVersion";
             this.labelVersion.Size = new System.Drawing.Size(45, 13);
             this.labelVersion.TabIndex = 8;
@@ -142,7 +142,7 @@
             this.labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelStatus.AutoSize = true;
-            this.labelStatus.Location = new System.Drawing.Point(16, 417);
+            this.labelStatus.Location = new System.Drawing.Point(16, 342);
             this.labelStatus.Name = "labelStatus";
             this.labelStatus.Size = new System.Drawing.Size(37, 13);
             this.labelStatus.TabIndex = 10;
@@ -165,7 +165,7 @@
             this.listBoxGroups.FormattingEnabled = true;
             this.listBoxGroups.Location = new System.Drawing.Point(22, 192);
             this.listBoxGroups.Name = "listBoxGroups";
-            this.listBoxGroups.Size = new System.Drawing.Size(216, 214);
+            this.listBoxGroups.Size = new System.Drawing.Size(216, 139);
             this.listBoxGroups.TabIndex = 12;
             // 
             // label3
@@ -182,7 +182,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(584, 493);
+            this.ClientSize = new System.Drawing.Size(584, 418);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.listBoxGroups);
             this.Controls.Add(this.labelMessage);

@@ -1,5 +1,7 @@
 ﻿using PhotoSorter.Properties;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -26,6 +28,22 @@ namespace PhotoSorter.MainForm
 
         public IProgressBar ProgressBar => this;
 
+        public List<GroupType> SelectedGroupTypes
+        {
+            get
+            {
+                var selectedGroupTypes = new List<GroupType>();
+
+                foreach (var checkedItem in listBoxGroups.CheckedItems)
+                {
+                    selectedGroupTypes.Add(
+                        Group.GroupTitles.First(item => item.Value == (string)checkedItem).Key);
+                }
+
+                return selectedGroupTypes;
+            }
+        }
+
         public MainForm()
         {
             InitializeComponent();
@@ -39,6 +57,7 @@ namespace PhotoSorter.MainForm
         private void MainForm_Load(object sender, EventArgs e)
         {
             labelVersion.Text = $"Version: {Resources.Version}";
+            ShowGroupTypesInListView();
         }
 
         private void ButtonSourceDirectory_Click(object sender, EventArgs e)
@@ -67,16 +86,6 @@ namespace PhotoSorter.MainForm
             }
         }
 
-        private void ButtonSort_Click(object sender, EventArgs e)
-        {
-            //Only run in debug mode if the build configuration is Debug
-#if DEBUG
-            Presenter.SortPreviewAsync(inDebugMode: true);
-            return;
-#endif
-            Presenter.SortPreviewAsync();
-        }
-
         public void OnProgress(int percent)
         {
             this.Invoke(new MethodInvoker(delegate
@@ -97,6 +106,24 @@ namespace PhotoSorter.MainForm
         {
             labelStatus.Text = message;
             labelStatus.ForeColor = Color.Red;
+        }
+
+        private void ButtonSort_Click(object sender, EventArgs e)
+        {
+            //Only run in debug mode if the build configuration is Debug
+#if DEBUG
+            Presenter.SortPreviewAsync(inDebugMode: true);
+            return;
+#endif
+            Presenter.SortPreviewAsync();
+        }
+
+        private void ShowGroupTypesInListView()
+        {
+            var groupTitles = Group.GroupTitles.Select(item => item.Value);
+
+            var items = listBoxGroups.Items;
+            items.AddRange(groupTitles.ToArray());
         }
     }
 }
