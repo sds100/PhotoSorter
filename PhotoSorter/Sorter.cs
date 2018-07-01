@@ -1,5 +1,6 @@
 ﻿using Microsoft.WindowsAPICodePack.Shell;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -80,7 +81,11 @@ namespace PhotoSorter
             {
                 string datePart = GetDatePartByGroupType(photoInfo, groupType);
 
-                //If no suitable group for the item already exists
+                if (groupType == GroupType.YEAR) {
+                    Console.WriteLine(photoInfoList.Count);
+                }
+
+                //If no suitable group for the item already exists then create the group
                 if (!groupList.Any(item => item.Name == datePart && item.Type == groupType))
                 {
                     var group = new Group(datePart, groupType);
@@ -92,12 +97,12 @@ namespace PhotoSorter
                         childGroupTypes.RemoveAt(0);
 
                         //only select files for the child group which can go in that group
-                        var childFileInfoList =
+                        var childPhotoInfoList =
                             photoInfoList.Where(item =>
                             GetDatePartByGroupType(item, groupType) == datePart).ToList();
 
                         group.ChildGroups =
-                            CreateGroups(childFileInfoList, childGroupTypes[0], childGroupTypes);
+                            CreateGroups(childPhotoInfoList, childGroupTypes[0], childGroupTypes);
                     }
 
                     groupList.Add(group);
