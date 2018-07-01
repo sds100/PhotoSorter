@@ -73,7 +73,7 @@ namespace PhotoSorter
         private static List<Group> CreateGroups(
             List<PhotoInfo> photoInfoList,
             GroupType groupType,
-            List<GroupType> childGroupTypes)
+            List<GroupType> groupTypes)
         {
             var groupList = new List<Group>();
 
@@ -81,18 +81,16 @@ namespace PhotoSorter
             {
                 string datePart = GetDatePartByGroupType(photoInfo, groupType);
 
-                if (groupType == GroupType.YEAR) {
-                    Console.WriteLine(photoInfoList.Count);
-                }
-
                 //If no suitable group for the item already exists then create the group
                 if (!groupList.Any(item => item.Name == datePart && item.Type == groupType))
                 {
                     var group = new Group(datePart, groupType);
 
                     //If not at the lowest level of the group tree, create child groups
-                    if (childGroupTypes.Count > 1)
+                    if (groupTypes.Count > 1)
                     {
+                        var childGroupTypes = groupTypes.ToList();
+
                         // remove the current group from the child groups
                         childGroupTypes.RemoveAt(0);
 
