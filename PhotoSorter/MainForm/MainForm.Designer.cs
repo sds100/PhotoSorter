@@ -196,6 +196,7 @@
             this.Controls.Add(this.labelOutputDirectory);
             this.Controls.Add(this.buttonSourceDirectory);
             this.Controls.Add(this.labelSourceDirectory);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Photo Sorter";
