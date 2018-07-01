@@ -33,9 +33,12 @@
             // 
             // treeView
             // 
+            this.treeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.treeView.Location = new System.Drawing.Point(13, 13);
             this.treeView.Name = "treeView";
-            this.treeView.Size = new System.Drawing.Size(775, 425);
+            this.treeView.Size = new System.Drawing.Size(759, 536);
             this.treeView.TabIndex = 0;
             // 
             // SortPreviewForm
@@ -43,7 +46,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.treeView);
             this.Name = "SortPreviewForm";
             this.Text = "SortPreviewForm";
