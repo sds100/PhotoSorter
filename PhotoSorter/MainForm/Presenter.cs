@@ -15,6 +15,7 @@ namespace PhotoSorter.MainForm
         public async void SortPreviewAsync(bool inDebugMode)
         {
             var groupTypes = Form.SelectedGroupTypes;
+            string sourceDirectory = Form.SourceDirectory;
 
             if (inDebugMode)
             {
@@ -26,17 +27,17 @@ namespace PhotoSorter.MainForm
                     GroupType.HOUR
                 };
 
-                string sourceDirectory = MainForm.DEBUG_SOURCE;
-
-                await Sorter.SortPreviewAsync(sourceDirectory, groupTypes);
-
+                sourceDirectory = MainForm.DEBUG_SOURCE;
+            }
+            else if (!AreOptionsValid())
+            {
                 return;
             }
 
-            if (AreOptionsValid())
-            {
-                await Sorter.SortPreviewAsync(Form.SourceDirectory, groupTypes);
-            }
+            var sortPreviewResult =
+                    await Sorter.SortPreviewAsync(sourceDirectory, groupTypes);
+
+            Form.ShowSortPreviewDialog(sortPreviewResult);
         }
 
         public void SortPreviewAsync() => SortPreviewAsync(inDebugMode: false);

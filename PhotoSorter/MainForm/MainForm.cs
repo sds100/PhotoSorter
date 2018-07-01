@@ -108,6 +108,11 @@ namespace PhotoSorter.MainForm
             labelStatus.ForeColor = Color.Red;
         }
 
+        public void ShowSortPreviewDialog(SortPreviewResult sortPreviewResult)
+        {
+            new SortPreviewForm.SortPreviewForm(sortPreviewResult).ShowDialog();
+        }
+
         private void ButtonSort_Click(object sender, EventArgs e)
         {
             //Only run in debug mode if the build configuration is Debug

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using static PhotoSorter.Group;
 
 namespace PhotoSorter.MainForm
 {
@@ -11,6 +10,7 @@ namespace PhotoSorter.MainForm
         string OutputDirectory { get; set; }
         List<GroupType> SelectedGroupTypes { get; }
 
+        void ShowSortPreviewDialog(SortPreviewResult sortPreviewResult);
         void ShowErrorMessage(string message);
     }
 }
