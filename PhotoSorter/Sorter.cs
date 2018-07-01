@@ -10,6 +10,8 @@ namespace PhotoSorter
 {
     public static class Sorter
     {
+        private const string DEBUG_JSON = "../../debug.json";
+
         /// <summary>
         /// Sort photos into groups but don't write the changes to the disk.
         /// </summary>
@@ -126,7 +128,7 @@ namespace PhotoSorter
 
         private static void OutputJsonToFile(object value)
         {
-            using (var streamWriter = new StreamWriter("A:\\debug.json"))
+            using (var streamWriter = new StreamWriter(DEBUG_JSON))
             {
                 streamWriter.Write(JsonConvert.SerializeObject(value));
             }
