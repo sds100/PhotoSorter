@@ -75,6 +75,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sorter.cs" />
+    <Compile Include="SortPreviewForm\IForm.cs" />
+    <Compile Include="SortPreviewForm\IPresenter.cs" />
+    <Compile Include="SortPreviewForm\Presenter.cs" />
     <Compile Include="SortPreviewForm\SortPreviewForm.cs">
       <SubType>Form</SubType>
     </Compile>
