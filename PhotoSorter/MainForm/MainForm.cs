@@ -7,6 +7,9 @@ namespace PhotoSorter.MainForm
 {
     public partial class MainForm : Form, IForm, IProgressBar
     {
+        public const string DEBUG_SOURCE = "../../DEBUG_SOURCE";
+        public const string DEBUG_OUTPUT = "../../OUTPUT";
+
         private readonly IPresenter Presenter;
 
         public string SourceDirectory
@@ -26,6 +29,10 @@ namespace PhotoSorter.MainForm
         public MainForm()
         {
             InitializeComponent();
+
+            SourceDirectory = "";
+            OutputDirectory = "";
+
             Presenter = new Presenter(this);
         }
 
@@ -62,7 +69,12 @@ namespace PhotoSorter.MainForm
 
         private void ButtonSort_Click(object sender, EventArgs e)
         {
-            Presenter.SortAsync();
+            //Only run in debug mode if the build configuration is Debug
+#if DEBUG
+            Presenter.SortPreviewAsync(inDebugMode: true);
+            return;
+#endif
+            Presenter.SortPreviewAsync();
         }
 
         public void OnProgress(int percent)

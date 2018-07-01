@@ -23,7 +23,7 @@ namespace PhotoSorter
         /// E.g year, month, day</param>
         public static async Task<SortPreviewResult> SortPreviewAsync(
             string sourceDirectory,
-            GroupType[] groupTypes)
+            List<GroupType> groupTypes)
         {
             var sortResult = new SortPreviewResult();
 
