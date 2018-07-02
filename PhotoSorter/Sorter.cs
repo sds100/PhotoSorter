@@ -32,12 +32,13 @@ namespace PhotoSorter
                 var photoInfoListResult = CreatePhotoInfoList(sourceDirectory);
 
                 sortResult.UnknownFilesList = photoInfoListResult.UnknownFilesList;
-                sortResult.PhotoInfoList = photoInfoListResult.PhotoInfoList;
 
                 var groups = CreateGroups(
                     photoInfoListResult.PhotoInfoList,
                     GroupType.YEAR,
                     groupTypes.ToList());
+
+                sortResult.GroupInfoList = groups;
             });
 
             return sortResult;
@@ -67,7 +68,8 @@ namespace PhotoSorter
                     {
                         photoInfoList.Add(new PhotoInfo(filePath, itemDate.GetValueOrDefault()));
                     }
-                    else {
+                    else
+                    {
                         unknownFilesList.Add(filePath);
                     }
                 }
@@ -113,8 +115,12 @@ namespace PhotoSorter
                             photoInfoList.Where(item =>
                             GetDatePartByGroupType(item, groupType) == datePart).ToList();
 
-                        group.ChildGroups =
+                        group.ChildrenGroups =
                             CreateGroups(childPhotoInfoList, childGroupTypes[0], childGroupTypes);
+                    }
+                    else
+                    {
+                        group.Files = photoInfoList;
                     }
 
                     groupList.Add(group);

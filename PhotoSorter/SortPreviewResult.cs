@@ -8,14 +8,14 @@ namespace PhotoSorter
     public struct SortPreviewResult
     {
         /// <summary>
-        /// A list of all the files that can be sorted
-        /// </summary>
-        public List<PhotoInfo> PhotoInfoList { get; set; }
-
-        /// <summary>
         /// A list of all the files that can not be sorted
         /// </summary>
         public List<string> UnknownFilesList { get; set; }
+
+        /// <summary>
+        /// A list of all the groups which contain the sorted files
+        /// </summary>
+        public List<Group> GroupInfoList { get; set; }
 
         public bool UnknownFilesFound => UnknownFilesList.Count > 0;
     }

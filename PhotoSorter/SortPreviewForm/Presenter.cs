@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PhotoSorter.SortPreviewForm
+﻿namespace PhotoSorter.SortPreviewForm
 {
-    class Presenter
+    class Presenter : IPresenter
     {
+        private readonly IForm Form;
+
+        public Presenter(IForm form, SortPreviewResult sortPreviewResult)
+        {
+            Form = form;
+            Form.AddNodesToTree(sortPreviewResult.UnknownFilesList, sortPreviewResult.GroupInfoList);
+        }
     }
 }

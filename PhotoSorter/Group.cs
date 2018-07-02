@@ -18,14 +18,16 @@ namespace PhotoSorter
 
         public string Name { get; }
         public GroupType Type { get; }
-        public List<Group> ChildGroups { get; set; }
-        public List<PhotoInfo> Files { get; }
+        public List<Group> ChildrenGroups { get; set; }
+        public List<PhotoInfo> Files { get; set; }
+
+        public bool HasChildrenGroups => ChildrenGroups.Count > 0;
 
         public Group(string name, GroupType type)
         {
             Name = name;
             Type = type;
-            ChildGroups = new List<Group>();
+            ChildrenGroups = new List<Group>();
             Files = new List<PhotoInfo>();
         }
     }
