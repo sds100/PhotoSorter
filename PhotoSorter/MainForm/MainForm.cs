@@ -102,7 +102,7 @@ namespace PhotoSorter.MainForm
             }));
         }
 
-        public void ShowErrorMessage(string message)
+        public void ShowMessage(string message, bool isError)
         {
             labelStatus.Text = message;
             labelStatus.ForeColor = Color.Red;
@@ -115,12 +115,13 @@ namespace PhotoSorter.MainForm
 
         private void ButtonSort_Click(object sender, EventArgs e)
         {
+            bool inDebugMode = false;
+
             //Only run in debug mode if the build configuration is Debug
 #if DEBUG
-            Presenter.SortPreviewAsync(inDebugMode: true);
-            return;
+            inDebugMode = true;
 #endif
-            Presenter.SortPreviewAsync();
+            Presenter.SortPreviewAsync(inDebugMode);
         }
 
         private void ShowGroupTypesInListView()

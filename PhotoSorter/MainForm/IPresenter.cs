@@ -2,7 +2,6 @@
 {
     interface IPresenter
     {
-        void SortPreviewAsync();
         void SortPreviewAsync(bool inDebugMode);
     }
 }
