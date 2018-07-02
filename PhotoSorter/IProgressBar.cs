@@ -2,7 +2,7 @@
 {
     public interface IProgressBar
     {
-        void ReportProgress(int percent);
+        void OnReportProgress(int percent);
         void OnProgressCompleted();
     }
 }

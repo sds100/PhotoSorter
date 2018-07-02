@@ -52,7 +52,7 @@ namespace PhotoSorter
         {
             if (ProgressBar != null)
             {
-                ProgressBar.ReportProgress(e.ProgressPercentage);
+                ProgressBar.OnReportProgress(e.ProgressPercentage);
             }
 
             base.OnProgressChanged(e);

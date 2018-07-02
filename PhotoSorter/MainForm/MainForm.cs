@@ -116,7 +116,7 @@ namespace PhotoSorter.MainForm
             items.AddRange(groupTitles.ToArray());
         }
 
-        public void ReportProgress(int percent)
+        public void OnReportProgress(int percent)
         {
             throw new NotImplementedException();
         }
