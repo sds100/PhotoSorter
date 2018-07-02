@@ -34,10 +34,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.buttonOutputDirectory = new System.Windows.Forms.Button();
             this.buttonSort = new System.Windows.Forms.Button();
-            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.labelVersion = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.labelStatus = new System.Windows.Forms.Label();
             this.labelMessage = new System.Windows.Forms.Label();
             this.listBoxGroups = new System.Windows.Forms.CheckedListBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -101,7 +99,7 @@
             // buttonSort
             // 
             this.buttonSort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSort.Location = new System.Drawing.Point(497, 383);
+            this.buttonSort.Location = new System.Drawing.Point(497, 322);
             this.buttonSort.Name = "buttonSort";
             this.buttonSort.Size = new System.Drawing.Size(75, 23);
             this.buttonSort.TabIndex = 5;
@@ -109,20 +107,11 @@
             this.buttonSort.UseVisualStyleBackColor = true;
             this.buttonSort.Click += new System.EventHandler(this.ButtonSort_Click);
             // 
-            // progressBar
-            // 
-            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(16, 361);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(556, 16);
-            this.progressBar.TabIndex = 7;
-            // 
             // labelVersion
             // 
             this.labelVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.labelVersion.AutoSize = true;
-            this.labelVersion.Location = new System.Drawing.Point(13, 388);
+            this.labelVersion.Location = new System.Drawing.Point(13, 327);
             this.labelVersion.Name = "labelVersion";
             this.labelVersion.Size = new System.Drawing.Size(45, 13);
             this.labelVersion.TabIndex = 8;
@@ -136,17 +125,6 @@
             this.label2.Size = new System.Drawing.Size(177, 13);
             this.label2.TabIndex = 9;
             this.label2.Text = "Where should the files be sorted to?";
-            // 
-            // labelStatus
-            // 
-            this.labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStatus.AutoSize = true;
-            this.labelStatus.Location = new System.Drawing.Point(16, 342);
-            this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(37, 13);
-            this.labelStatus.TabIndex = 10;
-            this.labelStatus.Text = "Status";
             // 
             // labelMessage
             // 
@@ -166,7 +144,7 @@
             this.listBoxGroups.FormattingEnabled = true;
             this.listBoxGroups.Location = new System.Drawing.Point(22, 192);
             this.listBoxGroups.Name = "listBoxGroups";
-            this.listBoxGroups.Size = new System.Drawing.Size(216, 139);
+            this.listBoxGroups.Size = new System.Drawing.Size(216, 109);
             this.listBoxGroups.TabIndex = 12;
             // 
             // label3
@@ -183,14 +161,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(584, 418);
+            this.ClientSize = new System.Drawing.Size(584, 357);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.listBoxGroups);
             this.Controls.Add(this.labelMessage);
-            this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelVersion);
-            this.Controls.Add(this.progressBar);
             this.Controls.Add(this.buttonSort);
             this.Controls.Add(this.buttonOutputDirectory);
             this.Controls.Add(this.label1);
@@ -215,10 +191,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonOutputDirectory;
         private System.Windows.Forms.Button buttonSort;
-        private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Label labelVersion;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label labelStatus;
         private System.Windows.Forms.Label labelMessage;
         private System.Windows.Forms.CheckedListBox listBoxGroups;
         private System.Windows.Forms.Label label3;

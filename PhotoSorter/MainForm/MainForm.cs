@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace PhotoSorter.MainForm
 {
@@ -86,26 +87,9 @@ namespace PhotoSorter.MainForm
             }
         }
 
-        public void OnProgress(int percent)
-        {
-            this.Invoke(new MethodInvoker(delegate
-            {
-                progressBar.Value = percent;
-            }));
-        }
-
-        public void OnProgressFinish()
-        {
-            this.Invoke(new MethodInvoker(delegate
-            {
-                progressBar.Value = 0;
-            }));
-        }
-
         public void ShowMessage(string message, bool isError)
         {
-            labelStatus.Text = message;
-            labelStatus.ForeColor = Color.Red;
+
         }
 
         public void ShowSortPreviewDialog(SortPreviewResult sortPreviewResult)
@@ -121,7 +105,7 @@ namespace PhotoSorter.MainForm
 #if DEBUG
             inDebugMode = true;
 #endif
-            Presenter.SortPreviewAsync(inDebugMode);
+            Presenter.SortPreview(inDebugMode);
         }
 
         private void ShowGroupTypesInListView()
@@ -130,6 +114,16 @@ namespace PhotoSorter.MainForm
 
             var items = listBoxGroups.Items;
             items.AddRange(groupTitles.ToArray());
+        }
+
+        public void ReportProgress(int percent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnProgressCompleted()
+        {
+            throw new NotImplementedException();
         }
     }
 }

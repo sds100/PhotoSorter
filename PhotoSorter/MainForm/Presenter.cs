@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 
 namespace PhotoSorter.MainForm
@@ -12,7 +13,7 @@ namespace PhotoSorter.MainForm
             Form = form;
         }
 
-        public async void SortPreviewAsync(bool inDebugMode)
+        public void SortPreview(bool inDebugMode)
         {
             var groupTypes = Form.SelectedGroupTypes;
             string sourceDirectory = Form.SourceDirectory;
@@ -34,31 +35,41 @@ namespace PhotoSorter.MainForm
                 return;
             }
 
-            var sortPreviewResult =
-                    await Sorter.SortPreviewAsync(sourceDirectory, groupTypes);
+            var backgroundWorker = new SortPreviewBackgroundWorker();
 
-            Form.ShowSortPreviewDialog(sortPreviewResult);
+            var args = new SortPreviewBackgroundWorker.Arguments(
+                sourceDirectory,
+                groupTypes
+                );
+
+            backgroundWorker.ProgressBar = Form.ProgressBar;
+
+            backgroundWorker.RunWorkerAsync(args);
+            backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(OnWorkerComplete);
         }
 
-        public void SortPreviewAsync() => SortPreviewAsync(inDebugMode: false);
+        public void OnWorkerComplete(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Form.ShowSortPreviewDialog((SortPreviewResult)e.Result);
+        }
 
         private bool AreOptionsValid()
         {
             if (string.IsNullOrWhiteSpace(Form.SourceDirectory)
                 || !Directory.Exists(Form.SourceDirectory))
             {
-                Form.ShowErrorMessage("Must choose a valid source directory");
+                Form.ShowMessage("Must choose a valid source directory", isError: true);
                 return false;
             }
             else if (string.IsNullOrWhiteSpace(Form.OutputDirectory)
                 || !Directory.Exists(Form.OutputDirectory))
             {
-                Form.ShowErrorMessage("Must choose a valid output directory");
+                Form.ShowMessage("Must choose a valid output directory", isError: true);
                 return false;
             }
             else if (Form.SelectedGroupTypes.Count == 0)
             {
-                Form.ShowErrorMessage("Must choose at least one group");
+                Form.ShowMessage("Must choose at least one group", isError: true);
                 return false;
             }
 

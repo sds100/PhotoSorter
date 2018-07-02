@@ -11,6 +11,6 @@ namespace PhotoSorter.MainForm
         List<GroupType> SelectedGroupTypes { get; }
 
         void ShowSortPreviewDialog(SortPreviewResult sortPreviewResult);
-        void ShowErrorMessage(string message);
+        void ShowMessage(string message, bool isError);
     }
 }

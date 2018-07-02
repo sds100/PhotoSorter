@@ -1,54 +1,70 @@
 ﻿using Microsoft.WindowsAPICodePack.Shell;
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using static PhotoSorter.Group;
 
 namespace PhotoSorter
 {
-    /// <summary>
-    /// Class that controls sorting files.
-    /// </summary>
-    public static class Sorter
+    public class SortPreviewBackgroundWorker : BackgroundWorker
     {
-        private const string DEBUG_JSON = "../../debug.json";
+        public IProgressBar ProgressBar { get; set; }
 
-        /// <summary>
-        /// Sort photos into groups but don't write the changes to the disk.
-        /// </summary>
-        /// <param name="sourceDirectory">Directory where the photos to sort are located</param>
-        /// <param name="groupTypes">The types of groups to sort the photos into.
-        /// E.g year, month, day</param>
-        public static async Task<SortPreviewResult> SortPreviewAsync(
-            string sourceDirectory,
-            List<GroupType> groupTypes)
+        public SortPreviewBackgroundWorker()
         {
+            this.WorkerReportsProgress = true;
+            this.WorkerSupportsCancellation = true;
+        }
+
+        protected override void OnDoWork(DoWorkEventArgs e)
+        {
+            base.OnDoWork(e);
+
+            var args = (Arguments)e.Argument;
             var sortResult = new SortPreviewResult();
 
-            await Task.Run(() =>
+            var photoInfoListResult = CreatePhotoInfoList(args.SourceDirectory, e);
+
+            sortResult.UnknownFilesList = photoInfoListResult.UnknownFilesList;
+
+            var groups = CreateGroups(
+                photoInfoListResult.PhotoInfoList,
+                GroupType.YEAR,
+                args.GroupTypes,
+                e);
+
+            sortResult.GroupInfoList = groups;
+
+            e.Result = sortResult;
+        }
+
+        protected override void OnRunWorkerCompleted(RunWorkerCompletedEventArgs e)
+        {
+            if (ProgressBar != null)
             {
-                var photoInfoListResult = CreatePhotoInfoList(sourceDirectory);
+                ProgressBar.OnProgressCompleted();
+            }
 
-                sortResult.UnknownFilesList = photoInfoListResult.UnknownFilesList;
+            base.OnRunWorkerCompleted(e);
+        }
 
-                var groups = CreateGroups(
-                    photoInfoListResult.PhotoInfoList,
-                    GroupType.YEAR,
-                    groupTypes.ToList());
+        protected override void OnProgressChanged(ProgressChangedEventArgs e)
+        {
+            if (ProgressBar != null)
+            {
+                ProgressBar.ReportProgress(e.ProgressPercentage);
+            }
 
-                sortResult.GroupInfoList = groups;
-            });
-
-            return sortResult;
+            base.OnProgressChanged(e);
         }
 
         /// <summary>
         /// Get the name and date taken for all the media files in a directory.
         /// </summary>
         /// <param name="sourceDirectory"></param>
-        private static PhotoInfoListResult CreatePhotoInfoList(string sourceDirectory)
+        private PhotoInfoListResult CreatePhotoInfoList(
+            string sourceDirectory,
+            DoWorkEventArgs eventArgs)
         {
             var photoInfoList = new List<PhotoInfo>();
 
@@ -58,6 +74,12 @@ namespace PhotoSorter
             //loop through the file names of every file in the source directory
             foreach (string filePath in Directory.GetFiles(sourceDirectory))
             {
+                if (CancellationPending)
+                {
+                    eventArgs.Cancel = true;
+                    break;
+                }
+
                 using (var file = ShellFile.FromFilePath(filePath))
                 {
                     /*The date the photo or video was taken. For photos, it is the "Date Taken" 
@@ -86,15 +108,22 @@ namespace PhotoSorter
         /// <param name="groupType"></param>
         /// <param name="groupTypes"></param>
         /// <returns></returns>
-        private static List<Group> CreateGroups(
+        private List<Group> CreateGroups(
             List<PhotoInfo> photoInfoList,
             GroupType groupType,
-            List<GroupType> groupTypes)
+            List<GroupType> groupTypes,
+            DoWorkEventArgs eventArgs)
         {
             var groupList = new List<Group>();
 
             foreach (var photoInfo in photoInfoList)
             {
+                if (CancellationPending)
+                {
+                    eventArgs.Cancel = true;
+                    break;
+                }
+
                 string datePart = GetDatePartByGroupType(photoInfo, groupType);
 
                 //If no suitable group for the item already exists then create the group
@@ -116,7 +145,11 @@ namespace PhotoSorter
                             GetDatePartByGroupType(item, groupType) == datePart).ToList();
 
                         group.ChildrenGroups =
-                            CreateGroups(childPhotoInfoList, childGroupTypes[0], childGroupTypes);
+                            CreateGroups(
+                                childPhotoInfoList,
+                                childGroupTypes[0],
+                                childGroupTypes,
+                                eventArgs);
                     }
                     else
                     {
@@ -157,12 +190,18 @@ namespace PhotoSorter
                     return null;
             }
         }
-
-        private static void OutputJsonToFile(object value)
+        public struct Arguments
         {
-            using (var streamWriter = new StreamWriter(DEBUG_JSON))
+            public readonly string SourceDirectory;
+            public readonly List<GroupType> GroupTypes;
+
+            public Arguments(
+                string sourceDirectory,
+                List<GroupType> groupTypes
+                )
             {
-                streamWriter.Write(JsonConvert.SerializeObject(value));
+                SourceDirectory = sourceDirectory;
+                GroupTypes = groupTypes;
             }
         }
     }
