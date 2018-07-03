@@ -32,7 +32,8 @@ namespace PhotoSorter
 
         public void OnWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.Close();
+            //Close() doesn't close the form from view.
+            this.Dispose();
         }
 
         public void OnProgressChanged(object sender, ProgressChangedEventArgs e)
