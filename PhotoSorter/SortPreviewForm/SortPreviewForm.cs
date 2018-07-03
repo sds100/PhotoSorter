@@ -28,37 +28,32 @@ namespace PhotoSorter.SortPreviewForm
 
             //Create a node for all the files that can be sorted.
             var rootNode = new TreeNode("Files to sort");
-            var nodes = CreateTreeNodeListFromGroups(groupList, rootNode);
 
-            rootNode.Nodes.AddRange(nodes);
+            AddChildGroupNodesToNode(groupList, rootNode);
 
             treeView.Nodes.Add(rootNode);
         }
 
-        private TreeNode[] CreateTreeNodeListFromGroups(List<Group> groupList, TreeNode parentNode)
+        private void AddChildGroupNodesToNode(List<Group> groupList, TreeNode parentNode)
         {
-            var treeNodeList = new List<TreeNode>();
-
             foreach (var group in groupList)
             {
+                var node = new TreeNode(group.Name);
+
                 if (group.HasChildrenGroups)
                 {
-                    var node = new TreeNode(group.Name);
-
-                    node.Nodes.AddRange(CreateTreeNodeListFromGroups(group.ChildrenGroups, node));
-
-                    treeNodeList.Add(node);
+                    AddChildGroupNodesToNode(group.ChildrenGroups, node);
                 }
                 else
                 {
                     //map the file names to a TreeNode list
                     var fileNodes = group.Files.Select(item => new TreeNode(item.FileName));
 
-                    parentNode.Nodes.AddRange(fileNodes.ToArray());
+                    node.Nodes.AddRange(fileNodes.ToArray());
                 }
-            }
 
-            return treeNodeList.ToArray();
+                parentNode.Nodes.Add(node);
+            }
         }
     }
 }

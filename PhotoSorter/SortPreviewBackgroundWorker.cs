@@ -1,4 +1,6 @@
 ﻿using Microsoft.WindowsAPICodePack.Shell;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -8,6 +10,8 @@ namespace PhotoSorter
 {
     public class SortPreviewBackgroundWorker : BackgroundWorker
     {
+        private const string DEBUG_JSON = "../../debug.json";
+
         public SortPreviewBackgroundWorker()
         {
             this.WorkerReportsProgress = true;
@@ -26,14 +30,17 @@ namespace PhotoSorter
 
             sortResult.UnknownFilesList = photoInfoListResult.UnknownFilesList;
 
+            var groupTypes = args.GroupTypes;
+
             var groups = CreateGroups(
                 photoInfoListResult.PhotoInfoList,
-                GroupType.YEAR,
-                args.GroupTypes,
-                e);
+                groupTypes,
+                eventArgs: e);
+
+            OutputJsonToFile(groups);
 
             sortResult.GroupInfoList = groups;
-            
+
             e.Result = sortResult;
         }
 
@@ -81,7 +88,7 @@ namespace PhotoSorter
                 checkedFileCount++;
 
                 var percentProgress = CalculatePercentageComplete(
-                    checkedFileCount, 
+                    checkedFileCount,
                    filesInDirectory.Length);
 
                 ReportProgress(percentProgress);
@@ -94,16 +101,12 @@ namespace PhotoSorter
         /// Loop through all the files which want to be sorted then create the groups (folders)
         /// necessary to sort them.
         /// </summary>
-        /// <param name="photoInfoList"></param>
-        /// <param name="groupType"></param>
-        /// <param name="groupTypes"></param>
-        /// <returns></returns>
         private List<Group> CreateGroups(
             List<PhotoInfo> photoInfoList,
-            GroupType groupType,
             List<GroupType> groupTypes,
             DoWorkEventArgs eventArgs)
         {
+            var groupType = groupTypes[0];
             var groupList = new List<Group>();
 
             for (int i = 0; i < photoInfoList.Count; i++)
@@ -133,21 +136,28 @@ namespace PhotoSorter
 
                         //only select files for the child group which can go in that group
                         var childPhotoInfoList =
-                            photoInfoList.Where(item =>
-                            GetDatePartByGroupType(item, groupType) == datePart).ToList();
+                            photoInfoList.Where(photo =>
+                            GetDatePartByGroupType(photo, groupType) == datePart).ToList();
 
+                        /*remove all the files which will go into the next group from the
+                          parent group's list of files*/
                         childPhotoInfoList.ForEach(item => photoInfoList.Remove(item));
 
                         group.ChildrenGroups =
                             CreateGroups(
                                 childPhotoInfoList,
-                                childGroupTypes[0],
                                 childGroupTypes,
                                 eventArgs);
                     }
                     else
                     {
-                        group.Files = photoInfoList;
+                        //only put files in the group that actually belong in the group
+                        var files = photoInfoList.Where(
+                            photo => GetDatePartByGroupType(photo, groupType) == datePart
+                            ).ToList();
+
+                        group.Files = files;
+
                     }
 
                     groupList.Add(group);
@@ -181,6 +191,9 @@ namespace PhotoSorter
                 case GroupType.DAY:
                     return dateTime.Day.ToString();
 
+                case GroupType.HOUR:
+                    return dateTime.Hour.ToString();
+
                 default:
                     return null;
             }
@@ -189,6 +202,14 @@ namespace PhotoSorter
         private static int CalculatePercentageComplete(int checkedFileCount, int totalFileCount)
         {
             return (int)(((float)checkedFileCount / totalFileCount) * 100);
+        }
+
+        private static void OutputJsonToFile(object value)
+        {
+            using (var streamWriter = new StreamWriter(DEBUG_JSON))
+            {
+                streamWriter.Write(JsonConvert.SerializeObject(value));
+            }
         }
 
         public struct Arguments
