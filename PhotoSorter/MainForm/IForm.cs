@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace PhotoSorter.MainForm
 {
     interface IForm
     {
-        IProgressBar ProgressBar { get; }
-
         string SourceDirectory { get; set; }
         string OutputDirectory { get; set; }
         List<GroupType> SelectedGroupTypes { get; }
-
-        void ShowSortPreviewDialog(SortPreviewResult sortPreviewResult);
+        
         void ShowMessage(string message, bool isError);
+        void OnSortPreviewComplete(object sender, RunWorkerCompletedEventArgs e);
     }
 }

@@ -8,8 +8,6 @@ namespace PhotoSorter
 {
     public class SortPreviewBackgroundWorker : BackgroundWorker
     {
-        public IProgressBar ProgressBar { get; set; }
-
         public SortPreviewBackgroundWorker()
         {
             this.WorkerReportsProgress = true;
@@ -24,6 +22,7 @@ namespace PhotoSorter
             var sortResult = new SortPreviewResult();
 
             var photoInfoListResult = CreatePhotoInfoList(args.SourceDirectory, e);
+            int totalFileCount = photoInfoListResult.PhotoInfoList.Count;
 
             sortResult.UnknownFilesList = photoInfoListResult.UnknownFilesList;
 
@@ -34,28 +33,8 @@ namespace PhotoSorter
                 e);
 
             sortResult.GroupInfoList = groups;
-
+            
             e.Result = sortResult;
-        }
-
-        protected override void OnRunWorkerCompleted(RunWorkerCompletedEventArgs e)
-        {
-            if (ProgressBar != null)
-            {
-                ProgressBar.OnProgressCompleted();
-            }
-
-            base.OnRunWorkerCompleted(e);
-        }
-
-        protected override void OnProgressChanged(ProgressChangedEventArgs e)
-        {
-            if (ProgressBar != null)
-            {
-                ProgressBar.OnReportProgress(e.ProgressPercentage);
-            }
-
-            base.OnProgressChanged(e);
         }
 
         /// <summary>
@@ -66,13 +45,16 @@ namespace PhotoSorter
             string sourceDirectory,
             DoWorkEventArgs eventArgs)
         {
+            int checkedFileCount = 0;
+
             var photoInfoList = new List<PhotoInfo>();
 
             //a list of paths to all files which can't be sorted
             var unknownFilesList = new List<string>();
+            var filesInDirectory = Directory.GetFiles(sourceDirectory);
 
             //loop through the file names of every file in the source directory
-            foreach (string filePath in Directory.GetFiles(sourceDirectory))
+            foreach (string filePath in filesInDirectory)
             {
                 if (CancellationPending)
                 {
@@ -95,6 +77,14 @@ namespace PhotoSorter
                         unknownFilesList.Add(filePath);
                     }
                 }
+
+                checkedFileCount++;
+
+                var percentProgress = CalculatePercentageComplete(
+                    checkedFileCount, 
+                   filesInDirectory.Length);
+
+                ReportProgress(percentProgress);
             }
 
             return new PhotoInfoListResult(photoInfoList, unknownFilesList);
@@ -116,13 +106,15 @@ namespace PhotoSorter
         {
             var groupList = new List<Group>();
 
-            foreach (var photoInfo in photoInfoList)
+            for (int i = 0; i < photoInfoList.Count; i++)
             {
                 if (CancellationPending)
                 {
                     eventArgs.Cancel = true;
                     break;
                 }
+
+                var photoInfo = photoInfoList[i];
 
                 string datePart = GetDatePartByGroupType(photoInfo, groupType);
 
@@ -144,6 +136,8 @@ namespace PhotoSorter
                             photoInfoList.Where(item =>
                             GetDatePartByGroupType(item, groupType) == datePart).ToList();
 
+                        childPhotoInfoList.ForEach(item => photoInfoList.Remove(item));
+
                         group.ChildrenGroups =
                             CreateGroups(
                                 childPhotoInfoList,
@@ -159,6 +153,7 @@ namespace PhotoSorter
                     groupList.Add(group);
                 }
             }
+
 
             return groupList;
         }
@@ -190,6 +185,12 @@ namespace PhotoSorter
                     return null;
             }
         }
+
+        private static int CalculatePercentageComplete(int checkedFileCount, int totalFileCount)
+        {
+            return (int)(((float)checkedFileCount / totalFileCount) * 100);
+        }
+
         public struct Arguments
         {
             public readonly string SourceDirectory;

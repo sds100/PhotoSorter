@@ -52,6 +52,7 @@
             this.buttonCancel.TabIndex = 1;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
             // 
             // labelStatus
             // 
@@ -70,8 +71,10 @@
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.progressBar);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "ProgressDialog";
             this.Text = "Progress Dialog";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ProgressDialog_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

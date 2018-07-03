@@ -2,13 +2,12 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 
 namespace PhotoSorter.MainForm
 {
-    public partial class MainForm : Form, IForm, IProgressBar
+    public partial class MainForm : Form, IForm
     {
         public const string DEBUG_SOURCE = "../../DEBUG_SOURCE";
         public const string DEBUG_OUTPUT = "../../OUTPUT";
@@ -27,8 +26,6 @@ namespace PhotoSorter.MainForm
             set => labelOutputDirectory.Text = value;
         }
 
-        public IProgressBar ProgressBar => this;
-
         public List<GroupType> SelectedGroupTypes
         {
             get
@@ -38,7 +35,8 @@ namespace PhotoSorter.MainForm
                 foreach (var checkedItem in listBoxGroups.CheckedItems)
                 {
                     selectedGroupTypes.Add(
-                        Group.GroupTitles.First(item => item.Value == (string)checkedItem).Key);
+                        Group.GroupTitles.First(item => item.Value == (string)checkedItem).Key
+                        );
                 }
 
                 return selectedGroupTypes;
@@ -92,9 +90,14 @@ namespace PhotoSorter.MainForm
 
         }
 
-        public void ShowSortPreviewDialog(SortPreviewResult sortPreviewResult)
+        public void OnSortPreviewComplete(object sender, RunWorkerCompletedEventArgs e)
         {
-            new SortPreviewForm.SortPreviewForm(sortPreviewResult).ShowDialog();
+            // only use the result if the worker wasn't cancelled.
+            if (!e.Cancelled)
+            {
+                var sortPreviewResult = (SortPreviewResult)e.Result;
+                new SortPreviewForm.SortPreviewForm(sortPreviewResult).ShowDialog();
+            }
         }
 
         private void ButtonSort_Click(object sender, EventArgs e)
@@ -105,7 +108,11 @@ namespace PhotoSorter.MainForm
 #if DEBUG
             inDebugMode = true;
 #endif
-            Presenter.SortPreview(inDebugMode);
+            var progressDialog = new ProgressDialog("Sorting files");
+
+            Presenter.SortPreview(inDebugMode, progressDialog);
+
+            progressDialog.ShowDialog();
         }
 
         private void ShowGroupTypesInListView()
@@ -114,16 +121,6 @@ namespace PhotoSorter.MainForm
 
             var items = listBoxGroups.Items;
             items.AddRange(groupTitles.ToArray());
-        }
-
-        public void OnReportProgress(int percent)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnProgressCompleted()
-        {
-            throw new NotImplementedException();
         }
     }
 }

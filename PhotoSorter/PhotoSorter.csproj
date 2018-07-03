@@ -59,10 +59,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GroupType.cs" />
+    <Compile Include="IProgressDialog.cs" />
     <Compile Include="PhotoInfo.cs" />
     <Compile Include="PhotoInfoListResult.cs" />
     <Compile Include="Group.cs" />
-    <Compile Include="IProgressBar.cs" />
     <Compile Include="MainForm\IForm.cs" />
     <Compile Include="MainForm\IPresenter.cs" />
     <Compile Include="MainForm\MainForm.cs">

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 
 namespace PhotoSorter.MainForm
@@ -13,7 +12,7 @@ namespace PhotoSorter.MainForm
             Form = form;
         }
 
-        public void SortPreview(bool inDebugMode)
+        public void SortPreview(bool inDebugMode, IProgressDialog progressDialog)
         {
             var groupTypes = Form.SelectedGroupTypes;
             string sourceDirectory = Form.SourceDirectory;
@@ -42,15 +41,12 @@ namespace PhotoSorter.MainForm
                 groupTypes
                 );
 
-            backgroundWorker.ProgressBar = Form.ProgressBar;
+            progressDialog.SubscribeToBackgroundWorker(backgroundWorker);
+
+            backgroundWorker.RunWorkerCompleted += Form.OnSortPreviewComplete;
 
             backgroundWorker.RunWorkerAsync(args);
-            backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(OnWorkerComplete);
-        }
 
-        public void OnWorkerComplete(object sender, RunWorkerCompletedEventArgs e)
-        {
-            Form.ShowSortPreviewDialog((SortPreviewResult)e.Result);
         }
 
         private bool AreOptionsValid()

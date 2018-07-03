@@ -2,6 +2,6 @@
 {
     interface IPresenter
     {
-        void SortPreview(bool inDebugMode);
+        void SortPreview(bool inDebugMode, IProgressDialog progressDialog);
     }
 }
