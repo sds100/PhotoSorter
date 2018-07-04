@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Drawing;
 
 namespace PhotoSorter.MainForm
 {
@@ -88,7 +89,16 @@ namespace PhotoSorter.MainForm
 
         public void ShowMessage(string message, bool isError)
         {
+            labelMessage.Text = message;
 
+            if (isError)
+            {
+                labelMessage.ForeColor = Color.Red;
+            }
+            else
+            {
+                labelMessage.ForeColor = Color.Black;
+            }
         }
 
         public void OnSortPreviewComplete(object sender, RunWorkerCompletedEventArgs e)
@@ -112,8 +122,6 @@ namespace PhotoSorter.MainForm
             var progressDialog = new ProgressDialog("Sorting files");
 
             Presenter.SortPreview(inDebugMode, progressDialog);
-
-            progressDialog.ShowDialog();
         }
 
         private void PopulateGroupTypeListView()

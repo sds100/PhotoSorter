@@ -36,9 +36,10 @@
             this.buttonSort = new System.Windows.Forms.Button();
             this.labelVersion = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.labelMessage = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.listBoxGroups = new System.Windows.Forms.CheckedListBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.labelMessage = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelSourceDirectory
@@ -126,15 +127,15 @@
             this.label2.TabIndex = 9;
             this.label2.Text = "Where should the files be sorted to?";
             // 
-            // labelMessage
+            // label6
             // 
-            this.labelMessage.AutoSize = true;
-            this.labelMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMessage.Location = new System.Drawing.Point(13, 13);
-            this.labelMessage.Name = "labelMessage";
-            this.labelMessage.Size = new System.Drawing.Size(280, 17);
-            this.labelMessage.TabIndex = 11;
-            this.labelMessage.Text = "You can sort both photos and videos.";
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(13, 13);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(280, 17);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "You can sort both photos and videos.";
             // 
             // listBoxGroups
             // 
@@ -156,15 +157,24 @@
             this.label3.TabIndex = 13;
             this.label3.Text = "Which groups should the files be sorted into?";
             // 
+            // labelMessage
+            // 
+            this.labelMessage.AutoSize = true;
+            this.labelMessage.Location = new System.Drawing.Point(16, 311);
+            this.labelMessage.Name = "labelMessage";
+            this.labelMessage.Size = new System.Drawing.Size(0, 13);
+            this.labelMessage.TabIndex = 14;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(584, 357);
+            this.Controls.Add(this.labelMessage);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.listBoxGroups);
-            this.Controls.Add(this.labelMessage);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelVersion);
             this.Controls.Add(this.buttonSort);

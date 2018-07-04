@@ -47,6 +47,7 @@ namespace PhotoSorter.MainForm
 
             backgroundWorker.RunWorkerAsync(args);
 
+            progressDialog.Show();
         }
 
         private bool AreOptionsValid()
@@ -68,6 +69,8 @@ namespace PhotoSorter.MainForm
                 Form.ShowMessage("Must choose at least one group", isError: true);
                 return false;
             }
+            
+            Form.ShowMessage("", isError: false);
 
             return true;
         }
