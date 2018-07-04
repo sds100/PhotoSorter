@@ -92,7 +92,7 @@
             this.buttonOutputDirectory.Location = new System.Drawing.Point(435, 117);
             this.buttonOutputDirectory.Name = "buttonOutputDirectory";
             this.buttonOutputDirectory.Size = new System.Drawing.Size(140, 23);
-            this.buttonOutputDirectory.TabIndex = 4;
+            this.buttonOutputDirectory.TabIndex = 2;
             this.buttonOutputDirectory.Text = "Choose Output Directory";
             this.buttonOutputDirectory.UseVisualStyleBackColor = true;
             this.buttonOutputDirectory.Click += new System.EventHandler(this.ButtonOutputDirectory_Click);
@@ -103,7 +103,7 @@
             this.buttonSort.Location = new System.Drawing.Point(497, 322);
             this.buttonSort.Name = "buttonSort";
             this.buttonSort.Size = new System.Drawing.Size(75, 23);
-            this.buttonSort.TabIndex = 5;
+            this.buttonSort.TabIndex = 3;
             this.buttonSort.Text = "Sort";
             this.buttonSort.UseVisualStyleBackColor = true;
             this.buttonSort.Click += new System.EventHandler(this.ButtonSort_Click);
@@ -146,7 +146,8 @@
             this.listBoxGroups.Location = new System.Drawing.Point(22, 192);
             this.listBoxGroups.Name = "listBoxGroups";
             this.listBoxGroups.Size = new System.Drawing.Size(216, 109);
-            this.listBoxGroups.TabIndex = 12;
+            this.listBoxGroups.TabIndex = 3;
+            this.listBoxGroups.TabStop = false;
             // 
             // label3
             // 
@@ -203,9 +204,10 @@
         private System.Windows.Forms.Button buttonSort;
         private System.Windows.Forms.Label labelVersion;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label labelMessage;
+        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckedListBox listBoxGroups;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label labelMessage;
     }
 }
 
