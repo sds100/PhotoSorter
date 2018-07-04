@@ -14,17 +14,17 @@ namespace PhotoSorter.MainForm
 
         public void SortPreview(bool inDebugMode, IProgressDialog progressDialog)
         {
-            var groupTypes = Form.SelectedGroupTypes;
+            var groupFormats = Form.SelectedGroupFormats;
             string sourceDirectory = Form.SourceDirectory;
 
             if (inDebugMode)
             {
-                groupTypes = new List<GroupType>()
+                groupFormats = new List<string>()
                 {
-                    GroupType.YEAR,
-                    GroupType.MONTH,
-                    GroupType.DAY,
-                    GroupType.HOUR
+                    GroupName.YEAR_FORMAT,
+                    GroupName.MONTH_FORMAT,
+                    GroupName.DAY_FORMAT,
+                    GroupName.HOUR_FORMAT
                 };
 
                 sourceDirectory = MainForm.DEBUG_SOURCE;
@@ -38,7 +38,7 @@ namespace PhotoSorter.MainForm
 
             var args = new SortPreviewBackgroundWorker.Arguments(
                 sourceDirectory,
-                groupTypes
+                groupFormats
                 );
 
             progressDialog.SubscribeToBackgroundWorker(backgroundWorker);
@@ -63,7 +63,7 @@ namespace PhotoSorter.MainForm
                 Form.ShowMessage("Must choose a valid output directory", isError: true);
                 return false;
             }
-            else if (Form.SelectedGroupTypes.Count == 0)
+            else if (Form.SelectedGroupFormats.Count == 0)
             {
                 Form.ShowMessage("Must choose at least one group", isError: true);
                 return false;

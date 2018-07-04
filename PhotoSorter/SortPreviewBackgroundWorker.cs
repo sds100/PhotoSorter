@@ -30,7 +30,7 @@ namespace PhotoSorter
 
             sortResult.UnknownFilesList = photoInfoListResult.UnknownFilesList;
 
-            var groupTypes = args.GroupTypes;
+            var groupTypes = args.GroupFormats;
 
             var groups = CreateGroups(
                 photoInfoListResult.PhotoInfoList,
@@ -93,7 +93,7 @@ namespace PhotoSorter
 
                 ReportProgress(percentProgress);
             }
-
+            
             return new PhotoInfoListResult(photoInfoList, unknownFilesList);
         }
 
@@ -103,10 +103,9 @@ namespace PhotoSorter
         /// </summary>
         private List<Group> CreateGroups(
             List<PhotoInfo> photoInfoList,
-            List<GroupType> groupTypes,
+            List<string> groupFormats,
             DoWorkEventArgs eventArgs)
         {
-            var groupType = groupTypes[0];
             var groupList = new List<Group>();
 
             for (int i = 0; i < photoInfoList.Count; i++)
@@ -118,26 +117,28 @@ namespace PhotoSorter
                 }
 
                 var photoInfo = photoInfoList[i];
+                var format = groupFormats[0];
 
-                string datePart = GetDatePartByGroupType(photoInfo, groupType);
+                GroupName groupName = new GroupName(photoInfo.DateTaken, format);
 
                 //If no suitable group for the item already exists then create the group
-                if (!groupList.Any(item => item.Name == datePart && item.Type == groupType))
+                if (!groupList.Any(item => item.Name == groupName))
                 {
-                    var group = new Group(datePart, groupType);
+                    var group = new Group(groupName);
 
                     //If not at the lowest level of the group tree, create child groups
-                    if (groupTypes.Count > 1)
+                    if (groupFormats.Count > 1)
                     {
-                        var childGroupTypes = groupTypes.ToList();
+                        var childGroupFormats = groupFormats.ToList();
 
                         // remove the current group from the child groups
-                        childGroupTypes.RemoveAt(0);
+                        childGroupFormats.RemoveAt(0);
 
                         //only select files for the child group which can go in that group
                         var childPhotoInfoList =
                             photoInfoList.Where(photo =>
-                            GetDatePartByGroupType(photo, groupType) == datePart).ToList();
+                            photo.DateTaken.ToString(format)
+                            == groupName.ToString()).ToList();
 
                         /*remove all the files which will go into the next group from the
                           parent group's list of files*/
@@ -146,15 +147,15 @@ namespace PhotoSorter
                         group.ChildrenGroups =
                             CreateGroups(
                                 childPhotoInfoList,
-                                childGroupTypes,
+                                childGroupFormats,
                                 eventArgs);
                     }
                     else
                     {
                         //only put files in the group that actually belong in the group
-                        var files = photoInfoList.Where(
-                            photo => GetDatePartByGroupType(photo, groupType) == datePart
-                            ).ToList();
+                        var files = photoInfoList.Where(photo =>
+                            photo.DateTaken.ToString(format)
+                            == groupName.ToString()).ToList();
 
                         group.Files = files;
 
@@ -164,39 +165,9 @@ namespace PhotoSorter
                 }
             }
 
+            groupList.Sort();
 
             return groupList;
-        }
-
-        /// <summary>
-        /// Determines the name of a group by extracting the correct part of the date of the file
-        /// depending on the group type. E.g if the group type is YEAR then it will extract the
-        /// year from the date of the file..
-        /// </summary>
-        /// <param name="photoInfo"></param>
-        /// <param name="groupType"></param>
-        /// <returns></returns>
-        private static string GetDatePartByGroupType(PhotoInfo photoInfo, GroupType groupType)
-        {
-            var dateTime = photoInfo.DateTaken;
-
-            switch (groupType)
-            {
-                case GroupType.YEAR:
-                    return dateTime.Year.ToString();
-
-                case GroupType.MONTH:
-                    return dateTime.ToString("MMMM");
-
-                case GroupType.DAY:
-                    return dateTime.Day.ToString();
-
-                case GroupType.HOUR:
-                    return dateTime.Hour.ToString();
-
-                default:
-                    return null;
-            }
         }
 
         private static int CalculatePercentageComplete(int checkedFileCount, int totalFileCount)
@@ -215,15 +186,15 @@ namespace PhotoSorter
         public struct Arguments
         {
             public readonly string SourceDirectory;
-            public readonly List<GroupType> GroupTypes;
+            public readonly List<string> GroupFormats;
 
             public Arguments(
                 string sourceDirectory,
-                List<GroupType> groupTypes
+                List<string> groupFormats
                 )
             {
                 SourceDirectory = sourceDirectory;
-                GroupTypes = groupTypes;
+                GroupFormats = groupFormats;
             }
         }
     }

@@ -26,20 +26,20 @@ namespace PhotoSorter.MainForm
             set => labelOutputDirectory.Text = value;
         }
 
-        public List<GroupType> SelectedGroupTypes
+        public List<string> SelectedGroupFormats
         {
             get
             {
-                var selectedGroupTypes = new List<GroupType>();
+                var selectedGroupFormats = new List<string>();
 
                 foreach (var checkedItem in listBoxGroups.CheckedItems)
                 {
-                    selectedGroupTypes.Add(
-                        Group.GroupTitles.First(item => item.Value == (string)checkedItem).Key
+                    selectedGroupFormats.Add(
+                        Group.GroupTypeTitles.First(item => item.Value == (string)checkedItem).Key
                         );
                 }
 
-                return selectedGroupTypes;
+                return selectedGroupFormats;
             }
         }
 
@@ -56,7 +56,8 @@ namespace PhotoSorter.MainForm
         private void MainForm_Load(object sender, EventArgs e)
         {
             labelVersion.Text = $"Version: {Resources.Version}";
-            ShowGroupTypesInListView();
+
+            PopulateGroupTypeListView();
         }
 
         private void ButtonSourceDirectory_Click(object sender, EventArgs e)
@@ -115,9 +116,9 @@ namespace PhotoSorter.MainForm
             progressDialog.ShowDialog();
         }
 
-        private void ShowGroupTypesInListView()
+        private void PopulateGroupTypeListView()
         {
-            var groupTitles = Group.GroupTitles.Select(item => item.Value);
+            var groupTitles = Group.GroupTypeTitles.Select(item => item.Value);
 
             var items = listBoxGroups.Items;
             items.AddRange(groupTitles.ToArray());

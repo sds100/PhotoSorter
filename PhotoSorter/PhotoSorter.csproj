@@ -58,7 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GroupType.cs" />
+    <Compile Include="GroupName.cs" />
     <Compile Include="IProgressDialog.cs" />
     <Compile Include="PhotoInfo.cs" />
     <Compile Include="PhotoInfoListResult.cs" />

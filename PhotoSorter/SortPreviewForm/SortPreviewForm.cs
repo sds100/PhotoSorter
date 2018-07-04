@@ -38,7 +38,7 @@ namespace PhotoSorter.SortPreviewForm
         {
             foreach (var group in groupList)
             {
-                var node = new TreeNode(group.Name);
+                var node = new TreeNode(group.Name.ToString());
 
                 if (group.HasChildrenGroups)
                 {
