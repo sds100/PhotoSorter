@@ -10,9 +10,9 @@ namespace PhotoSorter
     public class GroupName : IComparable
     {
         public const string YEAR_FORMAT = "yyyy";
-        public const string MONTH_FORMAT = "MMMM";
+        public const string MONTH_FORMAT = "MM-MMMM";
         public const string DAY_FORMAT = "MMMM-dd";
-        public const string HOUR_FORMAT = "HH";
+        public const string HOUR_FORMAT = "HH:00";
 
         private string Name { get; }
         private DateTime Date { get; }
