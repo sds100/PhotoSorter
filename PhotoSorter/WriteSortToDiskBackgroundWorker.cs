@@ -60,7 +60,12 @@ namespace PhotoSorter
                     {
                         foreach (var file in group.Files)
                         {
-                            File.Move(file.FilePath, $"{directory}\\{file.FileName}");
+                            string newFilepath = $"{directory}\\{file.FileName}";
+
+                            if (!File.Exists(newFilepath))
+                            {
+                                File.Move(file.FilePath, newFilepath);
+                            }
                         }
                     }
                 }
