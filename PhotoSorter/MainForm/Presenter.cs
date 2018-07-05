@@ -5,6 +5,9 @@ namespace PhotoSorter.MainForm
 {
     class Presenter : IPresenter
     {
+        private const string DEBUG_SOURCE = "../../DEBUG_SOURCE";
+        private const string DEBUG_OUTPUT = "../../OUTPUT";
+
         private readonly IForm Form;
 
         public Presenter(IForm form)
@@ -16,6 +19,7 @@ namespace PhotoSorter.MainForm
         {
             var groupFormats = Form.SelectedGroupFormats;
             string sourceDirectory = Form.SourceDirectory;
+            string outputDirectory = Form.OutputDirectory;
 
             if (inDebugMode)
             {
@@ -27,7 +31,8 @@ namespace PhotoSorter.MainForm
                     GroupName.HOUR_FORMAT
                 };
 
-                sourceDirectory = MainForm.DEBUG_SOURCE;
+                sourceDirectory = DEBUG_SOURCE;
+                outputDirectory = DEBUG_OUTPUT;
             }
             else if (!AreOptionsValid())
             {
@@ -38,6 +43,7 @@ namespace PhotoSorter.MainForm
 
             var args = new SortPreviewBackgroundWorker.Arguments(
                 sourceDirectory,
+                outputDirectory,
                 groupFormats
                 );
 
@@ -69,7 +75,7 @@ namespace PhotoSorter.MainForm
                 Form.ShowMessage("Must choose at least one group", isError: true);
                 return false;
             }
-            
+
             Form.ShowMessage("", isError: false);
 
             return true;

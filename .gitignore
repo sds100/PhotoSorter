@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 PhotoSorter/DEBUG_SOURCE/
 PhotoSorter/debug.json
+PhotoSorter/OUTPUT/

@@ -54,11 +54,13 @@
             this.buttonConfirm.TabIndex = 1;
             this.buttonConfirm.Text = "Confirm";
             this.buttonConfirm.UseVisualStyleBackColor = true;
+            this.buttonConfirm.Click += new System.EventHandler(this.ButtonConfirm_Click);
             // 
             // radioButtonMove
             // 
             this.radioButtonMove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.radioButtonMove.AutoSize = true;
+            this.radioButtonMove.Checked = true;
             this.radioButtonMove.Location = new System.Drawing.Point(13, 521);
             this.radioButtonMove.Name = "radioButtonMove";
             this.radioButtonMove.Size = new System.Drawing.Size(52, 17);
@@ -75,7 +77,6 @@
             this.radioButtonCopy.Name = "radioButtonCopy";
             this.radioButtonCopy.Size = new System.Drawing.Size(49, 17);
             this.radioButtonCopy.TabIndex = 3;
-            this.radioButtonCopy.TabStop = true;
             this.radioButtonCopy.Text = "Copy";
             this.radioButtonCopy.UseVisualStyleBackColor = true;
             // 

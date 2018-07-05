@@ -6,12 +6,34 @@ namespace PhotoSorter.SortPreviewForm
 {
     public partial class SortPreviewForm : Form, IForm
     {
+        public const int MOVE = 0;
+        public const int COPY = 1;
+
         private readonly IPresenter Presenter;
+
+        public int MoveOrCopy
+        {
+            get
+            {
+                if (radioButtonMove.Checked)
+                {
+                    return MOVE;
+                }
+                else if (radioButtonCopy.Checked)
+                {
+                    return COPY;
+                }
+
+                return 2;
+            }
+        }
 
         public SortPreviewForm(SortPreviewResult sortPreviewResult)
         {
             InitializeComponent();
             Presenter = new Presenter(this, sortPreviewResult);
+
+            labelOutputDirectory.Text = sortPreviewResult.OutputDirectory;
         }
 
         public void AddNodesToTree(List<string> unknownFiles, List<Group> groupList)
@@ -47,13 +69,25 @@ namespace PhotoSorter.SortPreviewForm
                 else
                 {
                     //map the file names to a TreeNode list
-                    var fileNodes = group.Files.Select(item => new TreeNode(item.FileName));
+                    var fileNodes = group.Files.Select(item => new TreeNode(item.FilePath));
 
                     node.Nodes.AddRange(fileNodes.ToArray());
                 }
 
                 parentNode.Nodes.Add(node);
             }
+        }
+
+        private void ButtonConfirm_Click(object sender, System.EventArgs e)
+        {
+            var progressDialog = new ProgressDialog("Saving sorted files to disk");
+            Presenter.Sort(progressDialog);
+        }
+
+        public void OnProgressCompleted()
+        {
+            MessageBox.Show("Your files have been sorted.");
+            this.Close();
         }
     }
 }

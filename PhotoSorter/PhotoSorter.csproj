@@ -80,6 +80,9 @@
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WriteSortToDiskBackgroundWorker.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SortPreviewBackgroundWorker.cs">
       <SubType>Component</SubType>
     </Compile>

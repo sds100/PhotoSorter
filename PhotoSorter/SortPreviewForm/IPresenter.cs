@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PhotoSorter.SortPreviewForm
+﻿namespace PhotoSorter.SortPreviewForm
 {
     interface IPresenter
     {
+        void Sort(IProgressDialog progressDialog);
     }
 }

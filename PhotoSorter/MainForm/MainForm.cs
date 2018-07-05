@@ -10,9 +10,6 @@ namespace PhotoSorter.MainForm
 {
     public partial class MainForm : Form, IForm
     {
-        public const string DEBUG_SOURCE = "../../DEBUG_SOURCE";
-        public const string DEBUG_OUTPUT = "../../OUTPUT";
-
         private readonly IPresenter Presenter;
 
         public string SourceDirectory

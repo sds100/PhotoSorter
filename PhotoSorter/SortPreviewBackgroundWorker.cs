@@ -40,6 +40,7 @@ namespace PhotoSorter
             OutputJsonToFile(groups);
 
             sortResult.GroupInfoList = groups;
+            sortResult.OutputDirectory = args.OutputDirectory;
 
             e.Result = sortResult;
         }
@@ -93,7 +94,7 @@ namespace PhotoSorter
 
                 ReportProgress(percentProgress);
             }
-            
+
             return new PhotoInfoListResult(photoInfoList, unknownFilesList);
         }
 
@@ -186,14 +187,17 @@ namespace PhotoSorter
         public struct Arguments
         {
             public readonly string SourceDirectory;
+            public readonly string OutputDirectory;
             public readonly List<string> GroupFormats;
 
             public Arguments(
                 string sourceDirectory,
+                string outputDirectory,
                 List<string> groupFormats
                 )
             {
                 SourceDirectory = sourceDirectory;
+                OutputDirectory = outputDirectory;
                 GroupFormats = groupFormats;
             }
         }

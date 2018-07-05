@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace PhotoSorter
 {
@@ -7,12 +8,14 @@ namespace PhotoSorter
     /// </summary>
     public class PhotoInfo
     {
-        public string FileName { get; }
+        public string FilePath { get; }
         public DateTime DateTaken { get; }
+
+        public string FileName => Path.GetFileName(FilePath);
 
         public PhotoInfo(string fileName, DateTime itemDate)
         {
-            FileName = fileName;
+            FilePath = fileName;
             DateTaken = itemDate;
         }
     }

@@ -22,6 +22,7 @@ namespace PhotoSorter
         public List<Group> ChildrenGroups { get; set; }
         public List<PhotoInfo> Files { get; set; }
 
+        public bool HasFiles => Files.Count > 0;
         public bool HasChildrenGroups => ChildrenGroups.Count > 0;
 
         public Group(GroupName groupName)
