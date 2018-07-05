@@ -126,9 +126,9 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(13, 13);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(280, 17);
+            this.label6.Size = new System.Drawing.Size(462, 17);
             this.label6.TabIndex = 11;
-            this.label6.Text = "You can sort both photos and videos.";
+            this.label6.Text = "You can sort both photos and videos and probably any files. :)\r\n";
             // 
             // listBoxGroups
             // 
