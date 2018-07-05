@@ -27,7 +27,7 @@ namespace PhotoSorter
 
             var photoInfoListResult =
                 CreatePhotoInfoList(
-                    args.SourceDirectory,
+                    args.SourceDirectories.ToArray(),
                     args.IncludeSubDirectories,
                     e);
 
@@ -53,9 +53,8 @@ namespace PhotoSorter
         /// <summary>
         /// Get the name and date taken for all the media files in a directory.
         /// </summary>
-        /// <param name="sourceDirectory"></param>
         private PhotoInfoListResult CreatePhotoInfoList(
-            string sourceDirectory,
+            string[] sourceDirectories,
             bool includeSubDirectories,
             DoWorkEventArgs eventArgs)
         {
@@ -66,16 +65,25 @@ namespace PhotoSorter
             //a list of paths to all files which can't be sorted
             var unknownFilesList = new List<string>();
 
-            string[] filesInDirectory;
+            List<string> filesInDirectory = new List<string>();
 
             if (includeSubDirectories)
             {
-                filesInDirectory =
-                    Directory.GetFiles(sourceDirectory, "*", SearchOption.AllDirectories);
+                foreach (string path in sourceDirectories)
+                {
+                    var files =
+                        Directory.GetFiles(path, "*", SearchOption.AllDirectories);
+
+                    filesInDirectory.AddRange(files);
+                }
             }
             else
             {
-                filesInDirectory = Directory.GetFiles(sourceDirectory);
+                foreach (string path in sourceDirectories)
+                {
+                    var files = Directory.GetFiles(path);
+                    filesInDirectory.AddRange(files);
+                }
             }
 
             //loop through the file names of every file in the source directory
@@ -107,7 +115,7 @@ namespace PhotoSorter
 
                 var percentProgress = CalculatePercentageComplete(
                     checkedFileCount,
-                   filesInDirectory.Length);
+                   filesInDirectory.Count);
 
                 ReportProgress(percentProgress);
             }
@@ -203,19 +211,19 @@ namespace PhotoSorter
 
         public struct Arguments
         {
-            public readonly string SourceDirectory;
+            public readonly List<string> SourceDirectories;
             public readonly string OutputDirectory;
             public readonly bool IncludeSubDirectories;
             public readonly List<string> GroupFormats;
 
             public Arguments(
-                string sourceDirectory,
+                List<string> sourceDirectories,
                 string outputDirectory,
                 bool includeSubDirectories,
                 List<string> groupFormats
                 )
             {
-                SourceDirectory = sourceDirectory;
+                SourceDirectories = sourceDirectories;
                 OutputDirectory = outputDirectory;
                 IncludeSubDirectories = includeSubDirectories;
                 GroupFormats = groupFormats;

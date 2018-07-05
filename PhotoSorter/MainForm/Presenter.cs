@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace PhotoSorter.MainForm
 {
@@ -18,7 +19,7 @@ namespace PhotoSorter.MainForm
         public void SortPreview(bool inDebugMode, IProgressDialog progressDialog)
         {
             var groupFormats = Form.SelectedGroupFormats;
-            string sourceDirectory = Form.SourceDirectory;
+            List<string> sourceDirectories = Form.SourceDirectories;
             string outputDirectory = Form.OutputDirectory;
 
             if (inDebugMode)
@@ -31,7 +32,7 @@ namespace PhotoSorter.MainForm
                     GroupName.HOUR_FORMAT
                 };
 
-                sourceDirectory = DEBUG_SOURCE;
+                sourceDirectories = new List<string>() { DEBUG_SOURCE };
                 outputDirectory = DEBUG_OUTPUT;
             }
             else if (!AreOptionsValid())
@@ -42,7 +43,7 @@ namespace PhotoSorter.MainForm
             var backgroundWorker = new SortPreviewBackgroundWorker();
 
             var args = new SortPreviewBackgroundWorker.Arguments(
-                sourceDirectory,
+                sourceDirectories,
                 outputDirectory,
                 Form.IncludeSubDirectories,
                 groupFormats
@@ -59,10 +60,10 @@ namespace PhotoSorter.MainForm
 
         private bool AreOptionsValid()
         {
-            if (string.IsNullOrWhiteSpace(Form.SourceDirectory)
-                || !Directory.Exists(Form.SourceDirectory))
+            if (Form.SourceDirectories.Count == 0
+                || Form.SourceDirectories.Any(path => !Directory.Exists(path)))
             {
-                Form.ShowMessage("Must choose a valid source directory", isError: true);
+                Form.ShowMessage("Must choose valid source directories", isError: true);
                 return false;
             }
             else if (string.IsNullOrWhiteSpace(Form.OutputDirectory)

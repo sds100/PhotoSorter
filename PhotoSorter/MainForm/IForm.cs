@@ -6,7 +6,7 @@ namespace PhotoSorter.MainForm
 {
     interface IForm
     {
-        string SourceDirectory { get; set; }
+        List<string> SourceDirectories { get; }
         string OutputDirectory { get; set; }
         bool IncludeSubDirectories { get; }
         List<string> SelectedGroupFormats { get; }

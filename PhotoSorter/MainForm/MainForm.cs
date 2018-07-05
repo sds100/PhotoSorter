@@ -12,10 +12,19 @@ namespace PhotoSorter.MainForm
     {
         private readonly IPresenter Presenter;
 
-        public string SourceDirectory
+        public List<string> SourceDirectories
         {
-            get => labelSourceDirectory.Text;
-            set => labelSourceDirectory.Text = value;
+            get
+            {
+                var sourceDirectories = new List<string>();
+
+                foreach (var item in listBoxSourceDirectories.Items)
+                {
+                    sourceDirectories.Add((string)item);
+                }
+
+                return sourceDirectories;
+            }
         }
 
         public string OutputDirectory
@@ -47,8 +56,7 @@ namespace PhotoSorter.MainForm
         {
             InitializeComponent();
 
-            SourceDirectory = "";
-            OutputDirectory = "";
+            labelOutputDirectory.Text = "";
 
             Presenter = new Presenter(this);
         }
@@ -64,11 +72,17 @@ namespace PhotoSorter.MainForm
         {
             using (var dialog = new FolderBrowserDialog())
             {
+                //when the user opens the dialog again, show them the last directory the chose.
+                if (SourceDirectories.Count > 0)
+                {
+                    dialog.SelectedPath = SourceDirectories.Last();
+                }
+
                 var result = dialog.ShowDialog();
 
                 if (result == DialogResult.OK && !String.IsNullOrWhiteSpace(dialog.SelectedPath))
                 {
-                    labelSourceDirectory.Text = dialog.SelectedPath;
+                    listBoxSourceDirectories.Items.Add(dialog.SelectedPath);
                 }
             }
         }
@@ -77,6 +91,12 @@ namespace PhotoSorter.MainForm
         {
             using (var dialog = new FolderBrowserDialog())
             {
+                //when the user opens the dialog again, show them the last directory the chose.
+                if (SourceDirectories.Count > 0)
+                {
+                    dialog.SelectedPath = SourceDirectories.Last();
+                }
+
                 var result = dialog.ShowDialog();
 
                 if (result == DialogResult.OK && !String.IsNullOrWhiteSpace(dialog.SelectedPath))
@@ -129,6 +149,14 @@ namespace PhotoSorter.MainForm
 
             var items = listBoxGroups.Items;
             items.AddRange(groupTitles.ToArray());
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                listBoxSourceDirectories.Items.Remove(listBoxSourceDirectories.SelectedItem);
+            }
         }
     }
 }

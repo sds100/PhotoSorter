@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelSourceDirectory = new System.Windows.Forms.Label();
             this.buttonSourceDirectory = new System.Windows.Forms.Button();
             this.labelOutputDirectory = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -41,25 +40,16 @@
             this.label3 = new System.Windows.Forms.Label();
             this.labelMessage = new System.Windows.Forms.Label();
             this.checkBoxIncludeSubDirectories = new System.Windows.Forms.CheckBox();
+            this.listBoxSourceDirectories = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
-            // 
-            // labelSourceDirectory
-            // 
-            this.labelSourceDirectory.AutoSize = true;
-            this.labelSourceDirectory.Location = new System.Drawing.Point(19, 67);
-            this.labelSourceDirectory.Name = "labelSourceDirectory";
-            this.labelSourceDirectory.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
-            this.labelSourceDirectory.Size = new System.Drawing.Size(22, 23);
-            this.labelSourceDirectory.TabIndex = 0;
-            this.labelSourceDirectory.Text = "C:\\";
             // 
             // buttonSourceDirectory
             // 
             this.buttonSourceDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSourceDirectory.Location = new System.Drawing.Point(435, 62);
+            this.buttonSourceDirectory.Location = new System.Drawing.Point(452, 48);
             this.buttonSourceDirectory.Name = "buttonSourceDirectory";
-            this.buttonSourceDirectory.Size = new System.Drawing.Size(140, 23);
+            this.buttonSourceDirectory.Size = new System.Drawing.Size(153, 23);
             this.buttonSourceDirectory.TabIndex = 1;
             this.buttonSourceDirectory.Text = "Choose Source Folder";
             this.buttonSourceDirectory.UseVisualStyleBackColor = true;
@@ -70,7 +60,7 @@
             this.labelOutputDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.labelOutputDirectory.AutoSize = true;
-            this.labelOutputDirectory.Location = new System.Drawing.Point(19, 117);
+            this.labelOutputDirectory.Location = new System.Drawing.Point(19, 324);
             this.labelOutputDirectory.Name = "labelOutputDirectory";
             this.labelOutputDirectory.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
             this.labelOutputDirectory.Size = new System.Drawing.Size(22, 23);
@@ -82,17 +72,19 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(16, 48);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(134, 13);
+            this.label1.Size = new System.Drawing.Size(402, 39);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Where are the files to sort?";
+            this.label1.Text = "Where are the files to sort?\r\nYou can choose multiple folders by clicking \"Choose" +
+    " Source Folder\" for each folder.\r\nSelect a path in the list then click \"Delete\" " +
+    "button to remove it.";
             // 
             // buttonOutputDirectory
             // 
             this.buttonOutputDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOutputDirectory.Location = new System.Drawing.Point(435, 117);
+            this.buttonOutputDirectory.Location = new System.Drawing.Point(792, 324);
             this.buttonOutputDirectory.Name = "buttonOutputDirectory";
-            this.buttonOutputDirectory.Size = new System.Drawing.Size(140, 23);
+            this.buttonOutputDirectory.Size = new System.Drawing.Size(153, 23);
             this.buttonOutputDirectory.TabIndex = 2;
             this.buttonOutputDirectory.Text = "Choose Output Folder";
             this.buttonOutputDirectory.UseVisualStyleBackColor = true;
@@ -101,7 +93,7 @@
             // buttonSort
             // 
             this.buttonSort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSort.Location = new System.Drawing.Point(497, 322);
+            this.buttonSort.Location = new System.Drawing.Point(870, 481);
             this.buttonSort.Name = "buttonSort";
             this.buttonSort.Size = new System.Drawing.Size(75, 23);
             this.buttonSort.TabIndex = 3;
@@ -113,7 +105,7 @@
             // 
             this.labelVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.labelVersion.AutoSize = true;
-            this.labelVersion.Location = new System.Drawing.Point(13, 327);
+            this.labelVersion.Location = new System.Drawing.Point(13, 486);
             this.labelVersion.Name = "labelVersion";
             this.labelVersion.Size = new System.Drawing.Size(45, 13);
             this.labelVersion.TabIndex = 8;
@@ -122,7 +114,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(19, 104);
+            this.label2.Location = new System.Drawing.Point(19, 311);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(177, 13);
             this.label2.TabIndex = 9;
@@ -144,16 +136,16 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.listBoxGroups.CheckOnClick = true;
             this.listBoxGroups.FormattingEnabled = true;
-            this.listBoxGroups.Location = new System.Drawing.Point(22, 192);
+            this.listBoxGroups.Location = new System.Drawing.Point(22, 387);
             this.listBoxGroups.Name = "listBoxGroups";
-            this.listBoxGroups.Size = new System.Drawing.Size(216, 109);
+            this.listBoxGroups.Size = new System.Drawing.Size(216, 64);
             this.listBoxGroups.TabIndex = 3;
             this.listBoxGroups.TabStop = false;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(19, 161);
+            this.label3.Location = new System.Drawing.Point(19, 365);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(219, 13);
             this.label3.TabIndex = 13;
@@ -170,19 +162,28 @@
             // checkBoxIncludeSubDirectories
             // 
             this.checkBoxIncludeSubDirectories.AutoSize = true;
-            this.checkBoxIncludeSubDirectories.Location = new System.Drawing.Point(344, 323);
+            this.checkBoxIncludeSubDirectories.Location = new System.Drawing.Point(717, 485);
             this.checkBoxIncludeSubDirectories.Name = "checkBoxIncludeSubDirectories";
             this.checkBoxIncludeSubDirectories.Size = new System.Drawing.Size(147, 17);
             this.checkBoxIncludeSubDirectories.TabIndex = 15;
             this.checkBoxIncludeSubDirectories.Text = "Include files in sub-folders";
             this.checkBoxIncludeSubDirectories.UseVisualStyleBackColor = true;
             // 
+            // listBoxSourceDirectories
+            // 
+            this.listBoxSourceDirectories.FormattingEnabled = true;
+            this.listBoxSourceDirectories.Location = new System.Drawing.Point(16, 103);
+            this.listBoxSourceDirectories.Name = "listBoxSourceDirectories";
+            this.listBoxSourceDirectories.Size = new System.Drawing.Size(923, 186);
+            this.listBoxSourceDirectories.TabIndex = 16;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(584, 357);
+            this.ClientSize = new System.Drawing.Size(957, 516);
+            this.Controls.Add(this.listBoxSourceDirectories);
             this.Controls.Add(this.checkBoxIncludeSubDirectories);
             this.Controls.Add(this.labelMessage);
             this.Controls.Add(this.label3);
@@ -195,20 +196,19 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.labelOutputDirectory);
             this.Controls.Add(this.buttonSourceDirectory);
-            this.Controls.Add(this.labelSourceDirectory);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Photo Sorter";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label labelSourceDirectory;
         private System.Windows.Forms.Button buttonSourceDirectory;
         private System.Windows.Forms.Label labelOutputDirectory;
         private System.Windows.Forms.Label label1;
@@ -221,6 +221,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label labelMessage;
         private System.Windows.Forms.CheckBox checkBoxIncludeSubDirectories;
+        private System.Windows.Forms.ListBox listBoxSourceDirectories;
     }
 }
 
