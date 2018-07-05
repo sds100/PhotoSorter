@@ -61,7 +61,7 @@
             this.buttonSourceDirectory.Name = "buttonSourceDirectory";
             this.buttonSourceDirectory.Size = new System.Drawing.Size(140, 23);
             this.buttonSourceDirectory.TabIndex = 1;
-            this.buttonSourceDirectory.Text = "Choose Source Directory";
+            this.buttonSourceDirectory.Text = "Choose Source Folder";
             this.buttonSourceDirectory.UseVisualStyleBackColor = true;
             this.buttonSourceDirectory.Click += new System.EventHandler(this.ButtonSourceDirectory_Click);
             // 
@@ -94,7 +94,7 @@
             this.buttonOutputDirectory.Name = "buttonOutputDirectory";
             this.buttonOutputDirectory.Size = new System.Drawing.Size(140, 23);
             this.buttonOutputDirectory.TabIndex = 2;
-            this.buttonOutputDirectory.Text = "Choose Output Directory";
+            this.buttonOutputDirectory.Text = "Choose Output Folder";
             this.buttonOutputDirectory.UseVisualStyleBackColor = true;
             this.buttonOutputDirectory.Click += new System.EventHandler(this.ButtonOutputDirectory_Click);
             // 
