@@ -40,6 +40,7 @@
             this.listBoxGroups = new System.Windows.Forms.CheckedListBox();
             this.label3 = new System.Windows.Forms.Label();
             this.labelMessage = new System.Windows.Forms.Label();
+            this.checkBoxIncludeSubDirectories = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // labelSourceDirectory
@@ -166,12 +167,23 @@
             this.labelMessage.Size = new System.Drawing.Size(0, 13);
             this.labelMessage.TabIndex = 14;
             // 
+            // checkBoxIncludeSubDirectories
+            // 
+            this.checkBoxIncludeSubDirectories.AutoSize = true;
+            this.checkBoxIncludeSubDirectories.Location = new System.Drawing.Point(344, 323);
+            this.checkBoxIncludeSubDirectories.Name = "checkBoxIncludeSubDirectories";
+            this.checkBoxIncludeSubDirectories.Size = new System.Drawing.Size(147, 17);
+            this.checkBoxIncludeSubDirectories.TabIndex = 15;
+            this.checkBoxIncludeSubDirectories.Text = "Include files in sub-folders";
+            this.checkBoxIncludeSubDirectories.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(584, 357);
+            this.Controls.Add(this.checkBoxIncludeSubDirectories);
             this.Controls.Add(this.labelMessage);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.listBoxGroups);
@@ -208,6 +220,7 @@
         private System.Windows.Forms.CheckedListBox listBoxGroups;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label labelMessage;
+        private System.Windows.Forms.CheckBox checkBoxIncludeSubDirectories;
     }
 }
 

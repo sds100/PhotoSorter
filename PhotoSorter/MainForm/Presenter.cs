@@ -5,8 +5,8 @@ namespace PhotoSorter.MainForm
 {
     class Presenter : IPresenter
     {
-        private const string DEBUG_SOURCE = "../../DEBUG_SOURCE";
-        private const string DEBUG_OUTPUT = "../../OUTPUT";
+        private const string DEBUG_SOURCE = "..\\..\\DEBUG_SOURCE";
+        private const string DEBUG_OUTPUT = "..\\..\\OUTPUT";
 
         private readonly IForm Form;
 
@@ -44,6 +44,7 @@ namespace PhotoSorter.MainForm
             var args = new SortPreviewBackgroundWorker.Arguments(
                 sourceDirectory,
                 outputDirectory,
+                Form.IncludeSubDirectories,
                 groupFormats
                 );
 

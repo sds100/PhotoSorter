@@ -41,6 +41,8 @@ namespace PhotoSorter.MainForm
             }
         }
 
+        public bool IncludeSubDirectories => checkBoxIncludeSubDirectories.Checked;
+
         public MainForm()
         {
             InitializeComponent();

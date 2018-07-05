@@ -10,7 +10,7 @@ namespace PhotoSorter
 {
     public class SortPreviewBackgroundWorker : BackgroundWorker
     {
-        private const string DEBUG_JSON = "../../debug.json";
+        private const string DEBUG_JSON = "..\\..\\debug.json";
 
         public SortPreviewBackgroundWorker()
         {
@@ -25,7 +25,12 @@ namespace PhotoSorter
             var args = (Arguments)e.Argument;
             var sortResult = new SortPreviewResult();
 
-            var photoInfoListResult = CreatePhotoInfoList(args.SourceDirectory, e);
+            var photoInfoListResult =
+                CreatePhotoInfoList(
+                    args.SourceDirectory,
+                    args.IncludeSubDirectories,
+                    e);
+
             int totalFileCount = photoInfoListResult.PhotoInfoList.Count;
 
             sortResult.UnknownFilesList = photoInfoListResult.UnknownFilesList;
@@ -51,6 +56,7 @@ namespace PhotoSorter
         /// <param name="sourceDirectory"></param>
         private PhotoInfoListResult CreatePhotoInfoList(
             string sourceDirectory,
+            bool includeSubDirectories,
             DoWorkEventArgs eventArgs)
         {
             int checkedFileCount = 0;
@@ -59,7 +65,18 @@ namespace PhotoSorter
 
             //a list of paths to all files which can't be sorted
             var unknownFilesList = new List<string>();
-            var filesInDirectory = Directory.GetFiles(sourceDirectory);
+
+            string[] filesInDirectory;
+
+            if (includeSubDirectories)
+            {
+                filesInDirectory =
+                    Directory.GetFiles(sourceDirectory, "*", SearchOption.AllDirectories);
+            }
+            else
+            {
+                filesInDirectory = Directory.GetFiles(sourceDirectory);
+            }
 
             //loop through the file names of every file in the source directory
             foreach (string filePath in filesInDirectory)
@@ -188,16 +205,19 @@ namespace PhotoSorter
         {
             public readonly string SourceDirectory;
             public readonly string OutputDirectory;
+            public readonly bool IncludeSubDirectories;
             public readonly List<string> GroupFormats;
 
             public Arguments(
                 string sourceDirectory,
                 string outputDirectory,
+                bool includeSubDirectories,
                 List<string> groupFormats
                 )
             {
                 SourceDirectory = sourceDirectory;
                 OutputDirectory = outputDirectory;
+                IncludeSubDirectories = includeSubDirectories;
                 GroupFormats = groupFormats;
             }
         }

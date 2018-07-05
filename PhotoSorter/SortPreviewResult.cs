@@ -18,7 +18,7 @@ namespace PhotoSorter
         public List<Group> GroupInfoList { get; set; }
 
         public string OutputDirectory { get; set; }
-
+        
         public bool UnknownFilesFound => UnknownFilesList.Count > 0;
     }
 }
